@@ -21,6 +21,7 @@ public:
 	void receiveSocket();
 	void addMessage(PlayerMessage& msg);
 	sf::Vector2f runPrediction(float gameTime);
+	void push_front(PlayerMessage& msg);
 
 private:
 	// Choose an arbitrary port for opening sockets

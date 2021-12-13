@@ -37,6 +37,7 @@ void Client::runTcpClient()
     //    return;
     //std::cout << "Message sent to the server: \"" << out << "\"" << std::endl;
 
+	float timer = 0.0f;
 
     sf::RectangleShape rectServer;
     rectServer.setSize(sf::Vector2f(20, 20));
@@ -71,6 +72,7 @@ void Client::runTcpClient()
     {
         //Get the time since the last frame in milliseconds
         float dt = clock.restart().asSeconds() * gameSpeed;
+		timer += dt;
 
         sf::Event Event;
         while (windowClient.pollEvent(Event))
@@ -123,13 +125,18 @@ void Client::runTcpClient()
            rectServer.setPosition(p2Position.x, p2Position.y);
        }
 
-       if (prevPosition.x != rectClient.getPosition().x || prevPosition.y != rectClient.getPosition().y)
-       {
-          
-       }
-       sf::Packet packetq;
-       packetq << rectClient.getPosition().x << rectClient.getPosition().y << gameTime;
-       socket.send(packetq);
+	   if (timer >= 0.2f)
+	   {
+		   if (prevPosition.x != rectClient.getPosition().x || prevPosition.y != rectClient.getPosition().y)
+		   {
+			   sf::Packet packetq;
+			   packetq << rectClient.getPosition().x << rectClient.getPosition().y << gameTime;
+			   socket.send(packetq);
+		   }
+		   timer = 0.0f;
+	   }
+       
+
 
         windowClient.draw(rectServer);
         windowClient.draw(rectClient);
