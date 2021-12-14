@@ -2,71 +2,28 @@
 
 void Client::initialiseClient()
 {
-    //createClientWindow();
+	rectServer.setSize(sf::Vector2f(20, 20));
+	rectServer.setFillColor(sf::Color::Red);
+	rectServer.setPosition(sf::Vector2f(20, 20));
+
+	rectClient.setSize(sf::Vector2f(20, 20));
+	rectClient.setFillColor(sf::Color::Blue);
+	rectClient.setPosition(sf::Vector2f(700, 20));
+
     runTcpClient();
 }
 
 void Client::runTcpClient()
 {
-    // Ask for the server address
-    //sf::IpAddress server  = sf::IpAddress::getLocalAddress();
-    //do
-    //{
-    //    std::cout << "Type the address or name of the server to connect to: ";
-    //    std::cin >> server;
-    //} while (server == sf::IpAddress::None);
-
-    // Create a socket for communicating with the server
-    //sf::TcpSocket socket;
-
     // Connect to the server
     if (socket.connect(server, port) != sf::Socket::Done)
         return;
     std::cout << "Connected to server " << server << std::endl;
 
-    //// Receive a message from the server
-    //char in[128];
-    //std::size_t received;
-    //if (socket.receive(in, sizeof(in), received) != sf::Socket::Done)
-    //    return;
-    //std::cout << "Message received from the server: \"" << in << "\"" << std::endl;
-
-    //// Send an answer to the server
-    //const char out[] = "Hi, I'm a client";
-    //if (socket.send(out, sizeof(out)) != sf::Socket::Done)
-    //    return;
-    //std::cout << "Message sent to the server: \"" << out << "\"" << std::endl;
-
-	float timer = 0.0f;
-
-    sf::RectangleShape rectServer;
-    rectServer.setSize(sf::Vector2f(20, 20));
-    rectServer.setFillColor(sf::Color::Red);
-    rectServer.setPosition(sf::Vector2f(20, 20));
-
-    sf::RectangleShape rectClient;
-    rectClient.setSize(sf::Vector2f(20, 20));
-    rectClient.setFillColor(sf::Color::Blue);
-    rectClient.setPosition(sf::Vector2f(700, 20));
-
     windowClient.create(sf::VideoMode(800, 600, 32), "Client Window");
     windowClient.setFramerateLimit(60);
 
-    //Clock for timing the 'dt' value
-    sf::Clock clock;
-    float sendRate = 0.5f;//update time
-    float latency = 0.5f;//shadow time
-    float gameSpeed = 1.0f;
-    float gameTime = 0.0f;
-    float startTime = sendRate * 3.0f;
-
-    bool sleep = true;
-
-    sf::Vector2f prevPosition, latestPosition, p2Position, p1Position;
-
     socket.setBlocking(false);//want to receive data each frame
-
-    bool update = false;
 
     while (windowClient.isOpen())
     {
@@ -74,49 +31,9 @@ void Client::runTcpClient()
         float dt = clock.restart().asSeconds() * gameSpeed;
 		timer += dt;
 
-        sf::Event Event;
-        while (windowClient.pollEvent(Event))
-        {
-            if (Event.type == sf::Event::Closed || Event.key.code == sf::Keyboard::Escape)
-            {
-                windowClient.close();
-            }
-            else if (Event.type == sf::Event::GainedFocus)
-            {
-                update = true;
-            }
-            else if (Event.type == sf::Event::LostFocus)
-            {
-                update = false;
-            }
+		event();
 
-
-        }
-        if (update)
-        {
-            gameTime += dt;
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-            {
-                //Move the Player to the right
-                rectClient.move(rectSpeed, 0.0f);
-            }
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-            {
-                //Move the Player to the left
-                rectClient.move(-rectSpeed, 0.0f);
-            }
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-            {
-                //Move the Player up
-                rectClient.move(0.0f, -rectSpeed);
-            }
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-            {
-                //Move the Player down
-                rectClient.move(0.0f, rectSpeed);
-            }
-            //latestPosition = sf::Vector3f(rect1.getPosition().x, rect1.getPosition().y, gameTime);
-        }
+		updateClient(dt);
 
        sf::Packet packet;
        socket.receive(packet);
@@ -135,40 +52,67 @@ void Client::runTcpClient()
 		   }
 		   timer = 0.0f;
 	   }
-       
 
-
-        windowClient.draw(rectServer);
-        windowClient.draw(rectClient);
-
-        windowClient.display();
-        windowClient.clear();
+	   windowDraw();
     }
     system("pause");
 
 }
 
-void Client::createClientWindow()
+void Client::windowDraw()
 {
-   // window.create(sf::VideoMode(800, 600, 32), "Client Window");
-    //windowActive = true;
+	//Renders the relevant data onto the screen
+	windowClient.draw(rectServer);
+	windowClient.draw(rectClient);
+
+	windowClient.display();
+	windowClient.clear();
 }
 
-void Client::sendSocket(int x, int y)
+void Client::updateClient(float dt)
 {
-    sf::Packet packet;
-    packet << x << y;
-    socket.send(packet);
+	if (update)
+	{
+		gameTime += dt;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		{
+			//Move the Player to the right
+			rectClient.move(rectSpeed, 0.0f);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		{
+			//Move the Player to the left
+			rectClient.move(-rectSpeed, 0.0f);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		{
+			//Move the Player up
+			rectClient.move(0.0f, -rectSpeed);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		{
+			//Move the Player down
+			rectClient.move(0.0f, rectSpeed);
+		}
+	}
 }
 
-sf::Vector2f Client::receiveSocket()
+void Client::event()
 {
-    sf::Vector2f newPosition;
-    sf::Packet packet;
-    socket.receive(packet);
-
-    if (packet >> newPosition.x >> newPosition.y)
-    {
-        return newPosition;
-    }
+	//Keeps the sfml window active when run
+	while (windowClient.pollEvent(Event))
+	{
+		if (Event.type == sf::Event::Closed || Event.key.code == sf::Keyboard::Escape)
+		{
+			windowClient.close();
+		}
+		else if (Event.type == sf::Event::GainedFocus)
+		{
+			update = true;
+		}
+		else if (Event.type == sf::Event::LostFocus)
+		{
+			update = false;
+		}
+	}
 }

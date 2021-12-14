@@ -3,6 +3,7 @@
 #include<SFML/Graphics.hpp>
 #include <iostream>
 
+//Struct used to calculate prediction
 struct PlayerMessage
 {
 	float x;
@@ -15,29 +16,38 @@ class Server
 public:
 	void initialiseServer();
 	void runTcpServer();
-	void createServerWindow();
-	bool getWindowActive() { return windowActive; }
-	void sendSocket(int prevX, int prevY, int rectX, int rectY, sf::Packet packet);
-	void receiveSocket();
 	void addMessage(PlayerMessage& msg);
 	sf::Vector2f runPrediction(float gameTime);
-	void push_front(PlayerMessage& msg);
+	void update(float dt);
+	void event();
+	void windowDraw();
 
 private:
 	// Choose an arbitrary port for opening sockets
 	const unsigned short port = 50001;
 	// Create a server socket to accept new connections
+	sf::TcpSocket socket;
+	//Used to listen to a port
 	sf::TcpListener listener;
 
-	sf::TcpSocket socket;
-
 	sf::RenderWindow window;
-	bool windowActive = false;
 
+	sf::Event Event;
+
+	//Player object creation
+	sf::RectangleShape rectServer, rectClient, rectClientGhost;
+	sf::Vector2f prevPosition, p2Position;
 	int rectSpeed = 2.0f;
 
-	sf::RectangleShape rectServer, rectClient, rectClientGhost;
-
 	std::vector<PlayerMessage> playerMessages;
+
+	//Clock for timing the 'dt' value
+	sf::Clock clock;
+	float gameSpeed = 1.0f;
+	float gameTime = 0.0f;
+	float sentTime = 2.1f;
+
+	bool updateBool = false;
+
 };
 
