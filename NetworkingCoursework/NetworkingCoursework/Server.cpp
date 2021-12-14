@@ -86,7 +86,6 @@ void Server::runTcpServer()
 		}
 
 		rectClientGhost.setPosition(runPrediction(gameTime));
-		//rectClient.setPosition(runPrediction(gameTime));
 
 		windowDraw();
 	}
@@ -125,11 +124,11 @@ sf::Vector2f Server::runPrediction(float gameTime)
     //displacement = speed*time
     //speed = distance between last two position / time between last two positions
 
-    float speed = ((msg0.x - msg1.x) - (msg0.y - msg1.y)) / (msg0.timeSent - msg1.timeSent);
-    float displacement = speed * (gameTime - msg0.timeSent);
-    float nextPositionX = msg0.x + displacement;
-    float nextPositionY = msg0.y + displacement;
-    return sf::Vector2f(nextPositionX, nextPositionY);
+    //float speed = ((msg0.x - msg1.x) - (msg0.y - msg1.y)) / (msg0.timeSent - msg1.timeSent);
+    //float displacement = speed * (gameTime - msg0.timeSent);
+    //float nextPositionX = msg0.x + displacement;
+    //float nextPositionY = msg0.y + displacement;
+    //return sf::Vector2f(nextPositionX, nextPositionY);
 
     //Quadratic
     //S = ut +1/2at²
@@ -138,13 +137,13 @@ sf::Vector2f Server::runPrediction(float gameTime)
     //speed = distance beteween  last two position/ time between last two positions
     //acceleration = difference in speed at the last two positioms / time between those positions
 
-    //float speed1 = ((msg0.x - msg1.x) - (msg0.y - msg1.y)) / (msg0.timeSent - msg1.timeSent);
-    //float speed2 = ((msg1.x - msg2.x) - (msg1.y - msg2.y)) / (msg1.timeSent - msg2.timeSent);
-    //float acceleration = (speed1 - speed2) / (msg0.timeSent - msg2.timeSent);
-    //float displacement = speed1 * (gameTime - msg0.timeSent) + (0.5 * acceleration * powf(gameTime - msg0.timeSent, 2));
-    //float nextPositionX = msg0.x + displacement;
-    //float nextPositionY = msg0.y + displacement;
-    //return sf::Vector2f(nextPositionX, nextPositionY);
+    float speed1 = ((msg0.x - msg1.x) - (msg0.y - msg1.y)) / (msg0.timeSent - msg1.timeSent);
+    float speed2 = ((msg1.x - msg2.x) - (msg1.y - msg2.y)) / (msg1.timeSent - msg2.timeSent);
+    float acceleration = (speed1 - speed2) / (msg0.timeSent - msg2.timeSent);
+    float displacement = speed1 * (gameTime - msg0.timeSent) + (0.5 * acceleration * powf(gameTime - msg0.timeSent, 2));
+    float nextPositionX = msg0.x + displacement;
+    float nextPositionY = msg0.y + displacement;
+    return sf::Vector2f(nextPositionX, nextPositionY);
 }
 
 void Server::update(float dt)

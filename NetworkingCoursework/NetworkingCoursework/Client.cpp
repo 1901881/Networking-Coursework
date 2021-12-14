@@ -35,6 +35,8 @@ void Client::runTcpClient()
 
 		updateClient(dt);
 
+		//Receives the packet from the server 
+		//used for updating the servers object
        sf::Packet packet;
        socket.receive(packet);
        if (packet >> p2Position.x >> p2Position.y)
@@ -42,6 +44,7 @@ void Client::runTcpClient()
            rectServer.setPosition(p2Position.x, p2Position.y);
        }
 
+	   //timer is used to limit the amount of packets being sent
 	   if (timer >= 0.2f)
 	   {
 		   if (prevPosition.x != rectClient.getPosition().x || prevPosition.y != rectClient.getPosition().y)
@@ -50,7 +53,7 @@ void Client::runTcpClient()
 			   packetq << rectClient.getPosition().x << rectClient.getPosition().y << gameTime;
 			   socket.send(packetq);
 		   }
-		   timer = 0.0f;
+		   timer = 0.0f;//timer is reset for the next packet
 	   }
 
 	   windowDraw();

@@ -13,17 +13,19 @@ public:
 	void event();
 
 private:
+
+
+	//gets the local ipaddress so that it can connect to socket using the port
+	sf::IpAddress server = sf::IpAddress::getLocalAddress();
 	// Choose an arbitrary port for opening sockets
 	const unsigned short port = 50001;
 
-	sf::IpAddress server = sf::IpAddress::getLocalAddress();
 	sf::TcpSocket socket;
 	sf::RenderWindow windowClient;
 
 	sf::RectangleShape rectServer, rectClient;
 	sf::Vector2f prevPosition, p2Position;
 
-	bool windowActive = false;
 	int rectSpeed = 2.0f;
 
 	//Clock for timing the 'dt' value
@@ -31,7 +33,6 @@ private:
 	float gameSpeed = 1.0f;
 	float gameTime = 0.0f;
 	float timer = 0.0f;
-
 
 	bool update = false;
 	sf::Event Event;
