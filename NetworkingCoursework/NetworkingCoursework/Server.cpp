@@ -54,10 +54,11 @@ void Server::runTcpServer()
 		float dt = clock.restart().asSeconds() * gameSpeed;
 
 		event();
-		update(dt);
 
 		//used when sending data to the client
 		prevPosition = sf::Vector2f(rectServer.getPosition().x, rectServer.getPosition().y);
+
+		update(dt);
 
 		//Checks if the player has moved if yes the new position data is sent to the client
 		//for use to update the server object position on the clients side

@@ -38,8 +38,3 @@ void Player::playerHandleInput(int playerIndex)
 		players[playerIndex].move(0.0f, 0.1f);
 	}
 }
-
-void Player::playerRender(sf::RenderWindow window,int playerIndex)
-{
-	window.draw(players[playerIndex]);
-}

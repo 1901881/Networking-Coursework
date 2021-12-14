@@ -18,6 +18,6 @@ int main()
 	}
 	else
 	{
-		clientObj.runTcpClient();
+		clientObj.initialiseClient();
 	}
 }
