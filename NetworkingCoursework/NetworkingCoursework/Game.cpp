@@ -14,7 +14,7 @@ Game::Game(sf::RenderWindow* window)
 		boxes.push_back(box);
 	}
 	
-
+	boxTest = new BoxManager(window, sf::Vector2f(300, 300));
 
 	//init road line
 	scoreLine.setSize(sf::Vector2f(5.0f, window->getSize().y));
@@ -25,7 +25,7 @@ Game::Game(sf::RenderWindow* window)
 
 Game::~Game()
 {
-	//application_timings_file.close();
+	
 }
 
 void Game::update(float dt)
@@ -34,23 +34,35 @@ void Game::update(float dt)
 	//Collision
 	FloatRect nextPos;//get players next position
 	
-	for (auto &box : boxes)
-	{
+	//for (auto &box : boxes)
 
-		FloatRect playerBounds = serverPlayer->getSprite().getGlobalBounds();
-		FloatRect boxBounds = box->getSprite().getGlobalBounds(); 
-		nextPos = playerBounds;
-		nextPos.left += serverPlayer->getVelocity().x;
-		nextPos.top += serverPlayer->getVelocity().y;
-
-
-		serverPlayer->UpdateCollision(playerBounds, boxBounds);
-	}
-
-
-	serverPlayer->Update(dt);
+	FloatRect playerBounds = serverPlayer->getSprite().getGlobalBounds();
+	FloatRect boxBounds = boxTest->getSprite().getGlobalBounds();
 
 	
+
+	nextPos = playerBounds;
+	nextPos.left += serverPlayer->getVelocity().x;
+	nextPos.top += serverPlayer->getVelocity().y;
+
+
+	serverPlayer->UpdateCollision(playerBounds, boxBounds);
+
+
+	
+	
+	
+	
+	
+
+
+	//////////////////
+	serverPlayer->Update(dt);
+	Vector2f newBoxPositionAddOn = serverPlayer->getNewBoxPositionAddOn();
+	boxTest->setVelocity(newBoxPositionAddOn);
+	boxTest->Update(dt);
+
+	serverPlayer->setNewBoxPositionAddOn(sf::Vector2f(0.0f, 0.0f));
 	
 
 
@@ -63,15 +75,16 @@ void Game::render(float dt)
 	beginDraw();
 	window->draw(scoreLine);
 	
-	for (int i = 0; i < boxAmount; i++) {
-		//boxManager[i]->Render();
-	}
+	//for (int i = 0; i < boxAmount; i++) {
+	//	//boxManager[i]->Render();
+	//}
 
-	for (auto& i : boxes)
-	{
-		i->Render();
-	}
+	//for (auto& box : boxes)
+	//{
+	//	box->Render();
+	//}
 
+	boxTest->Render();
 	serverPlayer->Render();
 
 	endDraw();

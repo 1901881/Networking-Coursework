@@ -100,6 +100,7 @@ void ServerPlayer::CheckCollision(float dt)
 				&& playerBounds.left + playerBounds.width > boxBounds.left)
 			{
 				setVelocity(sf::Vector2f(getVelocity().y, 0.0f));
+				newBoxPositionAddOn.y = boxSpeed;
 				if (serverPlayerSprite.getRotation() == 270) {
 					HandleInput(dt);
 				}
@@ -111,6 +112,7 @@ void ServerPlayer::CheckCollision(float dt)
 				&& playerBounds.left + playerBounds.width > boxBounds.left)
 			{
 				setVelocity(sf::Vector2f(getVelocity().y, 0.0f));
+				newBoxPositionAddOn.y = -boxSpeed;
 				if (serverPlayerSprite.getRotation() == 90) {
 					HandleInput(dt);
 				}
@@ -122,6 +124,7 @@ void ServerPlayer::CheckCollision(float dt)
 				&& playerBounds.top + playerBounds.height > boxBounds.top)
 			{
 				setVelocity(sf::Vector2f(0.0f, getVelocity().y));
+				newBoxPositionAddOn.x = boxSpeed;
 				//serverPlayerSprite.setPosition(playerBounds.left, boxBounds.top + boxBounds.height);
 				if (serverPlayerSprite.getRotation() == 180) {
 					HandleInput(dt);
@@ -134,6 +137,7 @@ void ServerPlayer::CheckCollision(float dt)
 				&& playerBounds.top + playerBounds.height > boxBounds.top)
 			{
 				setVelocity(sf::Vector2f(0.0f, getVelocity().y));
+				newBoxPositionAddOn.x = -boxSpeed;
 				if (serverPlayerSprite.getRotation() == 0) {
 					HandleInput(dt);
 				}

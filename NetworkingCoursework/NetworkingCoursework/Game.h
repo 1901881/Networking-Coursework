@@ -29,6 +29,7 @@ private:
 
 	sf::RectangleShape scoreLine;
 	std::vector<BoxManager*> boxes;
+	BoxManager* boxTest;
 	
 
 	// Draw functions
