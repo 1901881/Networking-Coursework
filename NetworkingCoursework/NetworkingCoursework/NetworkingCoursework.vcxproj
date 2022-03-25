@@ -19,7 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BoxManager.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="ServerPlayer.cpp" />
     <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BoxManager.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="ServerPlayer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

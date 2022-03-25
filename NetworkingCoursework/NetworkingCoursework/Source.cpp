@@ -1,23 +1,76 @@
 #include <iostream>
+#include <SFML/Graphics.hpp>
+
+#include "Game.h"
 
 using namespace std;
 
+
 int main()
 {
-	//Creates class objects necessary for run
+	sf::Clock deltaClock;
+	float deltaTime;
+
+	sf::RenderWindow window(sf::VideoMode(800, 600), "Box Pusher");
+
+	Game game(&window);
+
+	float movementSpeed = 100;
+
+	//init road line
+	sf::RectangleShape scoreLine;
+	scoreLine.setSize(sf::Vector2f(5.0f, window.getSize().y));
+	scoreLine.setOrigin(sf::Vector2f((window.getSize().x) / 2.0f, 0.0f));
+	scoreLine.setPosition(sf::Vector2f(window.getSize().x, 0.0f));
 
 
-	//Asks for whether the user wants to run the client or the server protocol
-	char connectionType;
-	std::cout << "(s) for rer, (c) for client: ";
-	std::cin >> connectionType;
+	// Set window colour to black when clearing
+	//window.clear(sf::Color(18, 33, 43)); //Color Background
 
-	if (connectionType == 's')
+	while (window.isOpen())
 	{
-		//serverObj.initialiseServer();
+
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			//ImGui::SFML::ProcessEvent(event);
+			if (event.type == sf::Event::Closed)
+			{
+				window.close();
+			}
+			//deltaTime = deltaClock.restart().asSeconds();
+
+		
+		
+		
+
+		window.clear(sf::Color(18, 33, 43)); //Color Background
+
+		//window.draw(scoreLine);
+		//window.draw(player);
+
+		window.display();
+		}
+		//Calculate delta time. How much time has passed
+		//since it was last calculated (in seconds) and restart the clock.
+		
+
+
+	
+		deltaTime = deltaClock.restart().asSeconds();
+
+		game.update(deltaTime);
+		game.render(deltaTime);
 	}
-	else
-	{
-		//clientObj.initialiseClient();
-	}
+	return 0;
 }
+
+
+/*
+To-Do:
+add middle line +
+add player + 
+add boxes
+
+*/
+
