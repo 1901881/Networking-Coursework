@@ -1,24 +1,15 @@
 ﻿  Game.cpp
-D:\Documents\Uni Year 3\Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(11,53): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(11,53): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-D:\Documents\Uni Year 3\Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(11,45): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(11,45): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-D:\Documents\Uni Year 3\Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(20,56): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-          and
-          [
-              T=float
-          ]
-D:\Documents\Uni Year 3\Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(22,54): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(20,56): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=unsigned int
@@ -27,4 +18,23 @@ D:\Documents\Uni Year 3\Networking\Networking-Coursework\NetworkingCoursework\Ne
           [
               T=float
           ]
-  NetworkingCoursework.vcxproj -> D:\Documents\Uni Year 3\Networking\Networking-Coursework\NetworkingCoursework\x64\Debug\NetworkingCoursework.exe
+C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(22,54): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(40,52): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(47,53): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+  NetworkingCoursework.vcxproj -> C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\x64\Debug\NetworkingCoursework.exe

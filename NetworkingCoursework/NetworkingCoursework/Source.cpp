@@ -17,12 +17,6 @@ int main()
 
 	float movementSpeed = 100;
 
-	//init road line
-	sf::RectangleShape scoreLine;
-	scoreLine.setSize(sf::Vector2f(5.0f, window.getSize().y));
-	scoreLine.setOrigin(sf::Vector2f((window.getSize().x) / 2.0f, 0.0f));
-	scoreLine.setPosition(sf::Vector2f(window.getSize().x, 0.0f));
-
 
 	// Set window colour to black when clearing
 	//window.clear(sf::Color(18, 33, 43)); //Color Background

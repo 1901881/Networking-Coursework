@@ -1,4 +1,4 @@
-#include "Game.h"
+ #include "Game.h"
 
 Game::Game(sf::RenderWindow* window)
 {
@@ -21,6 +21,30 @@ Game::Game(sf::RenderWindow* window)
 	scoreLine.setOrigin(sf::Vector2f((window->getSize().x) / 2.0f, 0.0f));
 	scoreLine.setPosition(sf::Vector2f(window->getSize().x, 0.0f));
 
+
+	if (!font.loadFromFile("media/RetroGaming.ttf"))
+	{
+		//handle error
+	}
+	titleText.setFont(font);
+	titleText.setString("Box Pusher");
+	titleText.setFillColor(sf::Color::White);
+	titleText.setCharacterSize(25);
+
+
+	std::string scoreStringLeft = std::to_string(scoreLeft);
+	scoreTextLeft.setFont(font);
+	scoreTextLeft.setString(scoreStringLeft);
+	scoreTextLeft.setFillColor(sf::Color::White);
+	scoreTextLeft.setCharacterSize(35);
+	scoreTextLeft.setPosition(window->getSize().y / 2 + 30, 0);
+
+	std::string scoreStringRight = std::to_string(scoreRight);
+	scoreTextRight.setFont(font);
+	scoreTextRight.setString(scoreStringRight);
+	scoreTextRight.setFillColor(sf::Color::White);
+	scoreTextRight.setCharacterSize(35);
+	scoreTextRight.setPosition(window->getSize().y / 2 + 120, 0);
 }
 
 Game::~Game()
@@ -64,8 +88,25 @@ void Game::update(float dt)
 
 	serverPlayer->setNewBoxPositionAddOn(sf::Vector2f(0.0f, 0.0f));
 	
+	sf::Vector2f boxPosition = boxTest->getSprite().getPosition();
+	//sf::Vector2f screenSize = sf::Vector2f(window->getSize().y / 2.0f);
 
+	if (boxTest->getSprite().getPosition().x > scoreLine.getOrigin().x)
+	{
+		scoreLeft = 0;
+		scoreRight = 1;
+	}
+	else
+	{
+		scoreLeft = 1;
+		scoreRight = 0;
+	}
 
+	std::string scoreStringRight = std::to_string(scoreRight);
+	scoreTextRight.setString(scoreStringRight);
+
+	std::string scoreStringLeft = std::to_string(scoreLeft);
+	scoreTextLeft.setString(scoreStringLeft);
 	
 }
 
@@ -87,6 +128,9 @@ void Game::render(float dt)
 	boxTest->Render();
 	serverPlayer->Render();
 
+	window->draw(titleText);
+	window->draw(scoreTextLeft);
+	window->draw(scoreTextRight);
 	endDraw();
 }
 

@@ -5,6 +5,7 @@
 #include "BoxManager.h"
 
 #include <iostream>
+#include <string>
 using namespace sf;
 
 class Game
@@ -30,6 +31,14 @@ private:
 	sf::RectangleShape scoreLine;
 	std::vector<BoxManager*> boxes;
 	BoxManager* boxTest;
+
+	sf::Font font;
+	sf::Text titleText;
+	sf::Text scoreTextLeft;
+	sf::Text scoreTextRight;
+
+	int scoreLeft = 0;
+	int scoreRight = 0;
 	
 
 	// Draw functions
