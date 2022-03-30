@@ -17,6 +17,11 @@ public:
 	// Functions
 	void update(float dt);
 	void render(float dt);
+	void initScoreLine();
+	void initText();
+	void scoreLineUpdate();
+	void playerCollisionUpdate();
+	void boxCollisionUpdate();
 
 private:
 	int boxAmount = 5;
@@ -29,7 +34,7 @@ private:
 	BoxManager* boxManager[5];
 
 	sf::RectangleShape scoreLine;
-	std::vector<BoxManager*> boxes;
+	//std::vector<BoxManager*> boxes;
 	BoxManager* boxTest;
 
 	sf::Font font;
