@@ -2,7 +2,10 @@
 #include <SFML/Graphics.hpp>
 
 #include "ServerPlayer.h"
+#include "ClientPlayer.h"
+#include "Player.h"
 #include "BoxManager.h"
+#include "NetworkMessages.h"
 
 #include <iostream>
 #include <string>
@@ -30,7 +33,9 @@ private:
 	sf::RenderWindow* window;
 
 	// Simulation elements
-	ServerPlayer* serverPlayer;
+	ServerPlayer* server;
+	ClientPlayer* client;
+	Player* serverPlayer;
 	BoxManager* boxManager[5];
 
 	sf::RectangleShape scoreLine;
@@ -44,7 +49,11 @@ private:
 
 	int scoreLeft = 0;
 	int scoreRight = 0;
-	
+
+	// Choose an arbitrary port for opening sockets
+	const unsigned short port = 50001;
+	bool serverBool = false;
+	bool clientBool = false;
 
 	// Draw functions
 	void beginDraw();

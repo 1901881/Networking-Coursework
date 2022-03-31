@@ -5,7 +5,9 @@ Game::Game(sf::RenderWindow* window)
 	// Set window and input for the Gameulation
 	this->window = window;
 
-	serverPlayer = new ServerPlayer(window);
+
+
+	serverPlayer = new Player(window, sf::Vector2f(50, 250), "media/BoxPusher.png");
 
 	//for (int i = 0; i < boxAmount; i++) {
 	//	sf::Vector2f boxPosition = sf::Vector2f(i * 70, i * 70);
@@ -18,6 +20,30 @@ Game::Game(sf::RenderWindow* window)
 
 	initScoreLine();
 	initText();
+
+	// Client or server ?
+	char who;
+	std::cout << "Do you want to be a server (s) or a client (c)? ";
+	std::cin >> who;
+
+	// Test the TCP protocol
+	if (who == 's')
+	{
+		std::cout << "Server Run" << std::endl;
+		server = new ServerPlayer(port);
+		serverBool = true;
+		//serverPlayer = new ServerPlayer(window);
+		//serverPlayer->runTcpServer(port);
+	}
+	else if (who == 'c')
+	{
+		std::cout << "Client Run" << std::endl;
+		client = new ClientPlayer(port);
+		clientBool = true;
+		//clientPlayer = new ClientPlayer();
+		//clientPlayer->runTcpClient(port);
+	}
+
 }
 
 Game::~Game()
@@ -27,11 +53,48 @@ Game::~Game()
 
 void Game::update(float dt)
 {
-	playerCollisionUpdate();
-	boxCollisionUpdate();
-	serverPlayer->Update(dt);
-	boxTest->Update(dt);
-	scoreLineUpdate();
+	if (serverBool)
+	{
+		playerCollisionUpdate();
+		boxCollisionUpdate();
+		serverPlayer->Update(dt);
+
+		sf::Vector2f serverPlayerVelocity = serverPlayer->getVelocity();
+		//PlayerMessage serverPlayerMessage;
+		//serverPlayerMessage.id = 1;
+		//serverPlayerMessage.velocityX = serverPlayerVelocity.x;
+		//serverPlayerMessage.velocityY = serverPlayerVelocity.y;
+
+		////here is where I would use server functions to set and send the data
+		//Packet packet;
+		//packet << serverPlayerMessage.id << serverPlayerMessage.velocityX << serverPlayerMessage.velocityY;
+		//socket.send(packet);
+
+		serverPlayer->PlayerMove(serverPlayerVelocity);
+
+		server->createPlayerMessage(1, serverPlayerVelocity);
+
+
+		boxTest->Update(dt);
+		scoreLineUpdate();
+	}
+	if (clientBool)
+	{
+		//get game info
+		//update the game objects
+		//Packet packet;
+		//PlayerMessage serverPlayerMessage;
+		//socket.receive(packet);
+		//if (packet >> serverPlayerMessage.id >> serverPlayerMessage.velocityX >> serverPlayerMessage.velocityY)
+		//{
+		//	//update server player infor on client side
+		//	sf::Vector2f serverPlayerVelocity = sf::Vector2f(serverPlayerMessage.velocityX, serverPlayerMessage.velocityY);
+		//}
+
+		client->receivePlayerMessage();
+		serverPlayer->PlayerMove(client->getServerPlayerVelocity());
+	}
+
 }
 
 
@@ -131,20 +194,26 @@ void Game::playerCollisionUpdate()
 	FloatRect nextPos;//get players next position
 	//for (auto &box : boxes)
 	FloatRect playerBounds = serverPlayer->getSprite().getGlobalBounds();
+	//FloatRect playerBounds = serverPlayer->getPlayer()->getSprite().getGlobalBounds();
 	FloatRect boxBounds = boxTest->getSprite().getGlobalBounds();
 	nextPos = playerBounds;
 	nextPos.left += serverPlayer->getVelocity().x;
+	//nextPos.left += serverPlayer->getPlayer()->getVelocity().x;
 	nextPos.top += serverPlayer->getVelocity().y;
+	//nextPos.top += serverPlayer->getPlayer()->getVelocity().y;
 	serverPlayer->UpdateCollision(playerBounds, boxBounds);
+	//serverPlayer->getPlayer()->UpdateCollision(playerBounds, boxBounds);
 }
 
 void Game::boxCollisionUpdate()
 {
 	Vector2f newBoxPositionAddOn = serverPlayer->getNewBoxPositionAddOn();
+	//Vector2f newBoxPositionAddOn = serverPlayer->getPlayer()->getNewBoxPositionAddOn();
 	boxTest->setVelocity(newBoxPositionAddOn);
 	//boxTest->Update(dt);
 
 	serverPlayer->setNewBoxPositionAddOn(sf::Vector2f(0.0f, 0.0f));
+	//serverPlayer->getPlayer()->setNewBoxPositionAddOn(sf::Vector2f(0.0f, 0.0f));
 
 	sf::Vector2f boxPosition = boxTest->getSprite().getPosition();
 	//sf::Vector2f screenSize = sf::Vector2f(window->getSize().y / 2.0f);

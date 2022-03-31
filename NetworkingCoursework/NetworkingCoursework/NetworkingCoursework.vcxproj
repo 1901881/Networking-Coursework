@@ -20,13 +20,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoxManager.cpp" />
+    <ClCompile Include="ClientPlayer.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="ServerPlayer.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoxManager.h" />
+    <ClInclude Include="ClientPlayer.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="NetworkMessages.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="ServerPlayer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

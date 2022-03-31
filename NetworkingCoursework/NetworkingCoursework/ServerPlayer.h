@@ -1,39 +1,29 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
+#include "NetworkMessages.h"
+#include <iostream>
+
+using namespace sf;
 
 class ServerPlayer
 {
 public:
-	ServerPlayer(sf::RenderWindow* hwnd);
+	ServerPlayer(unsigned short port);
 	~ServerPlayer();
 
-	void Update(float dt);
-	void HandleInput(float dt);
-	void Render();
-	sf::Sprite getSprite() { return serverPlayerSprite; };
-	sf::Vector2f getVelocity() { return velocity; };
-	sf::Vector2f getNewBoxPositionAddOn() { return newBoxPositionAddOn; };
-	void setVelocity(sf::Vector2f velocity) { this->velocity = velocity; }
-	void setNewBoxPositionAddOn(sf::Vector2f newBoxPositionAddOn) { this->newBoxPositionAddOn = newBoxPositionAddOn; }
-	void setMovementSpeed(float movementSpeed) { this->movementSpeed = movementSpeed; }
-	void CheckCollision(float dt);
-	void UpdateCollision(sf::FloatRect playerBounds, sf::FloatRect boxBounds);
+	void runTcpServer(unsigned short port);
+	void createPlayerMessage(int id, sf::Vector2f velocity);
+	void sendPlayerMessage(PlayerMessage serverPlayerMessage);
 private:
-	sf::RenderWindow* window;
 
-	sf::Sprite serverPlayerSprite;
-	sf::Texture serverPlayerTexture;
+	IpAddress ip = IpAddress::getLocalAddress();
+	// Create a server socket to accept new connections
+	sf::TcpListener listener;
 
-	sf::Vector2f velocity;
-	sf::Vector2f newBoxPositionAddOn = sf::Vector2f(0.0f, 0.0f);
-	float boxSpeed = 1.0f;
+	sf::TcpSocket socket;
 
-	sf::FloatRect playerBounds;
-	sf::FloatRect boxBounds;
-	sf::FloatRect nextPos;
-
-	float movementSpeed = 300.0f;
-
+	bool clientConnected = false;
 };
 
