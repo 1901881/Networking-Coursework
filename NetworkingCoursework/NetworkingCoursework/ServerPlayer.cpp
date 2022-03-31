@@ -47,18 +47,26 @@ send player message
 
 */
 
-void ServerPlayer::createPlayerMessage(int id, sf::Vector2f velocity)
+void ServerPlayer::createPlayerMessage(int id, sf::Vector2f velocity, float angle)
 {
 	PlayerMessage serverPlayerMessage;
 	serverPlayerMessage.id = id;
 	serverPlayerMessage.velocityX = velocity.x;
 	serverPlayerMessage.velocityY = velocity.y;
+	serverPlayerMessage.angle = angle;
 	sendPlayerMessage(serverPlayerMessage);
 }
 
 void ServerPlayer::sendPlayerMessage(PlayerMessage serverPlayerMessage)
 {
 	Packet packet;
-	packet << serverPlayerMessage.id << serverPlayerMessage.velocityX << serverPlayerMessage.velocityY;
+	packet << serverPlayerMessage.id << serverPlayerMessage.velocityX << serverPlayerMessage.velocityY << serverPlayerMessage.angle;
 	socket.send(packet);
 }
+
+/*
+need to send player rotation 
+then collision
+see if player on client can go out of bounds and hit the boxes
+
+*/

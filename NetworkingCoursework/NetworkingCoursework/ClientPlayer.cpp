@@ -44,11 +44,13 @@ void ClientPlayer::receivePlayerMessage()
     PlayerMessage serverPlayerMessage;
     Packet packet;
     socket.receive(packet);
-    if (packet >> serverPlayerMessage.id >> serverPlayerMessage.velocityX >> serverPlayerMessage.velocityY)
+    if (packet >> serverPlayerMessage.id >> serverPlayerMessage.velocityX >> serverPlayerMessage.velocityY >> serverPlayerMessage.angle)
     {
      	//update server player infor on client side
-        std::cout << "player velocity x " << serverPlayerMessage.velocityX << std::endl;
+        //std::cout << "player velocity x " << serverPlayerMessage.velocityX << std::endl;
      	serverPlayerVelocity = sf::Vector2f(serverPlayerMessage.velocityX, serverPlayerMessage.velocityY);
+        //std::cout << "Client cpp: " << serverPlayerMessage.angle << std::endl;
+        this->serverPlayerMessage = serverPlayerMessage;
     }
 }
 

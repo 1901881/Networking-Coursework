@@ -14,7 +14,7 @@ public:
 	~ServerPlayer();
 
 	void runTcpServer(unsigned short port);
-	void createPlayerMessage(int id, sf::Vector2f velocity);
+	void createPlayerMessage(int id, sf::Vector2f velocity, float angle);
 	void sendPlayerMessage(PlayerMessage serverPlayerMessage);
 private:
 

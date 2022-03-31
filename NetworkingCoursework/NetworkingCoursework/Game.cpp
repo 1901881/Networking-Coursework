@@ -60,6 +60,7 @@ void Game::update(float dt)
 		serverPlayer->Update(dt);
 
 		sf::Vector2f serverPlayerVelocity = serverPlayer->getVelocity();
+		int serverPlayerAngle = serverPlayer->getAngle();
 		//PlayerMessage serverPlayerMessage;
 		//serverPlayerMessage.id = 1;
 		//serverPlayerMessage.velocityX = serverPlayerVelocity.x;
@@ -71,9 +72,10 @@ void Game::update(float dt)
 		//socket.send(packet);
 
 		serverPlayer->PlayerMove(serverPlayerVelocity);
+		serverPlayer->PlayerRotate(serverPlayerAngle);
 
-		server->createPlayerMessage(1, serverPlayerVelocity);
-
+		server->createPlayerMessage(1, serverPlayerVelocity, serverPlayerAngle);
+		//std::cout << "Game cpp: " << serverPlayer->getSprite().getRotation() << std::endl;
 
 		boxTest->Update(dt);
 		scoreLineUpdate();
@@ -92,7 +94,11 @@ void Game::update(float dt)
 		//}
 
 		client->receivePlayerMessage();
-		serverPlayer->PlayerMove(client->getServerPlayerVelocity());
+		serverPlayer->PlayerMove(sf::Vector2f(client->getServerPlayerMessage().velocityX, client->getServerPlayerMessage().velocityY));
+		//serverPlayer->getSprite().setRotation(client->getServerPlayerMessage().angle);
+		//serverPlayer->getSprite().setRotation(180);
+		serverPlayer->PlayerRotate(client->getServerPlayerMessage().angle);
+		//std::cout << "Game cpp client side: " << client->getServerPlayerMessage().angle << std::endl;
 	}
 
 }

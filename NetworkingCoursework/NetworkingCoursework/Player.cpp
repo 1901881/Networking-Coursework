@@ -57,7 +57,8 @@ void Player::HandleInput(float dt)
 		if (playerSprite.getPosition().x > 10.0f + playerTexture.getSize().x / 2)
 		{
 			velocity.x = -movementSpeed * dt;
-			playerSprite.setRotation(180);
+			//playerSprite.setRotation(180);
+			angle = 180;
 		}
 	}
 
@@ -69,7 +70,8 @@ void Player::HandleInput(float dt)
 		{
 			// Move the line 1 unit right
 			velocity.x = movementSpeed * dt;
-			playerSprite.setRotation(0);
+			//playerSprite.setRotation(0);
+			angle = 0;
 		}
 	}
 
@@ -81,7 +83,8 @@ void Player::HandleInput(float dt)
 		{
 			// Move the line 1 unit right
 			velocity.y = -movementSpeed * dt;
-			playerSprite.setRotation(270);
+			//playerSprite.setRotation(270);
+			angle = 270;
 		}
 	}
 
@@ -93,9 +96,12 @@ void Player::HandleInput(float dt)
 		{
 			// Move the line 1 unit right
 			velocity.y = movementSpeed * dt;
-			playerSprite.setRotation(90);
+			//playerSprite.setRotation(90);
+			angle = 90;
 		}
 	}
+
+
 }
 
 void Player::CheckCollision(float dt)

@@ -17,13 +17,15 @@ public:
 	void CheckCollision(float dt);
 	void UpdateCollision(sf::FloatRect playerBounds, sf::FloatRect boxBounds);
 	void PlayerMove(sf::Vector2f velocity) { playerSprite.move(velocity); }
+	void PlayerRotate(int angle) { playerSprite.setRotation(angle); }
 
+	int getAngle() { return angle; }
 	sf::Vector2f getVelocity() { return velocity; };
 	void setVelocity(sf::Vector2f velocity) { this->velocity = velocity; }
 	sf::Sprite getSprite() { return playerSprite; };
 	sf::Vector2f getNewBoxPositionAddOn() { return newBoxPositionAddOn; };
 	void setNewBoxPositionAddOn(sf::Vector2f newBoxPositionAddOn) { this->newBoxPositionAddOn = newBoxPositionAddOn; }
-
+	
 
 private:
 
@@ -41,6 +43,8 @@ private:
 	sf::FloatRect nextPos;
 
 	float movementSpeed = 300.0f;
+
+	int angle = 0;
 };
 
 

@@ -17,6 +17,7 @@ public:
 	void receivePlayerMessage();
 
 	sf::Vector2f getServerPlayerVelocity() { return serverPlayerVelocity; }
+	PlayerMessage getServerPlayerMessage() { return serverPlayerMessage; }
 
 private:
 
@@ -25,6 +26,10 @@ private:
 	// Create a socket for communicating with the server
 	sf::TcpSocket socket;
 
+
+	PlayerMessage serverPlayerMessage;
+
 	Vector2f serverPlayerVelocity;
+	float serverPlayerAngle;
 };
 
