@@ -1,8 +1,9 @@
-﻿  ClientPlayer.cpp
+﻿  BoxManager.cpp
+  ClientPlayer.cpp
   Game.cpp
 C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Player.h(20,58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(77,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(145,56): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(67,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(135,56): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=unsigned int
@@ -11,7 +12,7 @@ C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Netwo
           [
               T=float
           ]
-C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(147,54): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(137,54): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=unsigned int
@@ -20,18 +21,16 @@ C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Netwo
           [
               T=float
           ]
-C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(167,52): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(157,52): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=unsigned int
           ]
-C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(174,53): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(164,53): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=unsigned int
           ]
-  Player.cpp
-C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Player.h(20,58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   ServerPlayer.cpp
 C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\ServerPlayer.cpp(56,30): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   Source.cpp

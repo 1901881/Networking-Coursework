@@ -16,6 +16,9 @@ public:
 	void runTcpServer(unsigned short port);
 	void createPlayerMessage(int id, sf::Vector2f velocity, float angle);
 	void sendPlayerMessage(PlayerMessage serverPlayerMessage);
+
+	void createBoxMessage(int id, sf::Vector2f velocity);
+	void sendBoxMessage(BoxMessage boxMessage);
 private:
 
 	IpAddress ip = IpAddress::getLocalAddress();

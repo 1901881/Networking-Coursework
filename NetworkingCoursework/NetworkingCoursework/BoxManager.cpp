@@ -21,7 +21,7 @@ BoxManager::~BoxManager()
 
 void BoxManager::Update(float dt)
 {
-	boxSprite.move(velocity);
+	//boxSprite.move(velocity);
 }
 
 

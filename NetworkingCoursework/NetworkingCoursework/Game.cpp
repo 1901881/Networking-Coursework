@@ -57,48 +57,38 @@ void Game::update(float dt)
 	{
 		playerCollisionUpdate();
 		boxCollisionUpdate();
-		serverPlayer->Update(dt);
 
+		//Server player update///////////////////////////
+		serverPlayer->Update(dt);
 		sf::Vector2f serverPlayerVelocity = serverPlayer->getVelocity();
 		int serverPlayerAngle = serverPlayer->getAngle();
-		//PlayerMessage serverPlayerMessage;
-		//serverPlayerMessage.id = 1;
-		//serverPlayerMessage.velocityX = serverPlayerVelocity.x;
-		//serverPlayerMessage.velocityY = serverPlayerVelocity.y;
-
-		////here is where I would use server functions to set and send the data
-		//Packet packet;
-		//packet << serverPlayerMessage.id << serverPlayerMessage.velocityX << serverPlayerMessage.velocityY;
-		//socket.send(packet);
-
 		serverPlayer->PlayerMove(serverPlayerVelocity);
 		serverPlayer->PlayerRotate(serverPlayerAngle);
-
 		server->createPlayerMessage(1, serverPlayerVelocity, serverPlayerAngle);
 		//std::cout << "Game cpp: " << serverPlayer->getSprite().getRotation() << std::endl;
+		///////////////////////////////////////////////
 
+		/////Box update////////////////////////////////
 		boxTest->Update(dt);
+		sf::Vector2f boxVelocity = boxTest->getVelocity();
+		boxTest->MoveBox(boxVelocity);
+		server->createBoxMessage(3, boxVelocity);
+		///////////////////////////////////////////////
+
+
 		scoreLineUpdate();
 	}
 	if (clientBool)
 	{
-		//get game info
-		//update the game objects
-		//Packet packet;
-		//PlayerMessage serverPlayerMessage;
-		//socket.receive(packet);
-		//if (packet >> serverPlayerMessage.id >> serverPlayerMessage.velocityX >> serverPlayerMessage.velocityY)
-		//{
-		//	//update server player infor on client side
-		//	sf::Vector2f serverPlayerVelocity = sf::Vector2f(serverPlayerMessage.velocityX, serverPlayerMessage.velocityY);
-		//}
 
 		client->receivePlayerMessage();
 		serverPlayer->PlayerMove(sf::Vector2f(client->getServerPlayerMessage().velocityX, client->getServerPlayerMessage().velocityY));
-		//serverPlayer->getSprite().setRotation(client->getServerPlayerMessage().angle);
-		//serverPlayer->getSprite().setRotation(180);
 		serverPlayer->PlayerRotate(client->getServerPlayerMessage().angle);
 		//std::cout << "Game cpp client side: " << client->getServerPlayerMessage().angle << std::endl;
+
+		//update box here 
+		client->receiveBoxMessage();
+		boxTest->MoveBox(sf::Vector2f(client->getBoxMessage().velocityX, client->getBoxMessage().velocityY));
 	}
 
 }

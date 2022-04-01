@@ -15,9 +15,12 @@ public:
 	~ClientPlayer();
 	void runTcpClient(unsigned short port);
 	void receivePlayerMessage();
+	void receiveBoxMessage();
 
 	sf::Vector2f getServerPlayerVelocity() { return serverPlayerVelocity; }
 	PlayerMessage getServerPlayerMessage() { return serverPlayerMessage; }
+	BoxMessage getBoxMessage() { return boxMessage; }
+	
 
 private:
 
@@ -28,6 +31,7 @@ private:
 
 
 	PlayerMessage serverPlayerMessage;
+	BoxMessage boxMessage;
 
 	Vector2f serverPlayerVelocity;
 	float serverPlayerAngle;

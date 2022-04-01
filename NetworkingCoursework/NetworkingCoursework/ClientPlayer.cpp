@@ -54,6 +54,21 @@ void ClientPlayer::receivePlayerMessage()
     }
 }
 
+void ClientPlayer::receiveBoxMessage()
+{
+    BoxMessage boxMessage;
+    Packet packet;
+    socket.receive(packet);
+    if (packet >> boxMessage.id >> boxMessage.velocityX >> boxMessage.velocityY)
+    {
+        //update server player infor on client side
+        //std::cout << "player velocity x " << serverPlayerMessage.velocityX << std::endl;
+        //serverPlayerVelocity = sf::Vector2f(serverPlayerMessage.velocityX, serverPlayerMessage.velocityY);
+        //std::cout << "Client cpp: " << serverPlayerMessage.angle << std::endl;
+        this->boxMessage = boxMessage;
+    }
+}
+
 /*
 receive message
 

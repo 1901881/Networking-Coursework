@@ -64,6 +64,22 @@ void ServerPlayer::sendPlayerMessage(PlayerMessage serverPlayerMessage)
 	socket.send(packet);
 }
 
+void ServerPlayer::createBoxMessage(int id, sf::Vector2f velocity)
+{
+	BoxMessage boxMessage;
+	boxMessage.id = id;
+	boxMessage.velocityX = velocity.x;
+	boxMessage.velocityY = velocity.y;
+	sendBoxMessage(boxMessage);
+}
+
+void ServerPlayer::sendBoxMessage(BoxMessage boxMessage)
+{
+	Packet packet;
+	packet << boxMessage.id << boxMessage.velocityX << boxMessage.velocityY;
+	socket.send(packet);
+}
+
 /*
 need to send player rotation 
 then collision

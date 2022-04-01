@@ -15,7 +15,8 @@ struct PlayerMessage
 
 struct BoxMessage
 {
-
+	int id; //Object number of the player within the game world
+	float velocityX, velocityY; //Position of the player within the game world
 };
 
 struct ScoreMessage
