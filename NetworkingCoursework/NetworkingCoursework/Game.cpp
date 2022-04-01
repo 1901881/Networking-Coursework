@@ -77,18 +77,31 @@ void Game::update(float dt)
 
 
 		scoreLineUpdate();
+		server->createScoreMessage(scoreLeft, scoreRight);
+
+
 	}
 	if (clientBool)
 	{
 
 		client->receivePlayerMessage();
-		serverPlayer->PlayerMove(sf::Vector2f(client->getServerPlayerMessage().velocityX, client->getServerPlayerMessage().velocityY));
+		//serverPlayer->PlayerMove(sf::Vector2f(client->getServerPlayerMessage().velocityX, client->getServerPlayerMessage().velocityY));
 		serverPlayer->PlayerRotate(client->getServerPlayerMessage().angle);
+
+		serverPlayer->PlayerMove(client->runPrediction(dt));
 		//std::cout << "Game cpp client side: " << client->getServerPlayerMessage().angle << std::endl;
 
 		//update box here 
 		client->receiveBoxMessage();
 		boxTest->MoveBox(sf::Vector2f(client->getBoxMessage().velocityX, client->getBoxMessage().velocityY));
+
+		//Update score
+		client->receiveScoreMessage();
+		scoreLeft = client->getScoreMessage().scoreLeft;
+		scoreRight = client->getScoreMessage().scoreRight;
+		setScoreLineText();
+
+		//scoreLineUpdate();
 	}
 
 }
@@ -176,7 +189,12 @@ void Game::scoreLineUpdate()
 		scoreLeft = 1;
 		scoreRight = 0;
 	}
+ 
+	setScoreLineText();
+}
 
+void Game::setScoreLineText()
+{
 	std::string scoreStringRight = std::to_string(scoreRight);
 	scoreTextRight.setString(scoreStringRight);
 

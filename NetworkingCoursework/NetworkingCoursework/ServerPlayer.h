@@ -19,6 +19,9 @@ public:
 
 	void createBoxMessage(int id, sf::Vector2f velocity);
 	void sendBoxMessage(BoxMessage boxMessage);
+
+	void createScoreMessage(int scoreLeft, int scoreRight);
+	void sendScoreMessage(ScoreMessage scoreMessage);
 private:
 
 	IpAddress ip = IpAddress::getLocalAddress();

@@ -80,6 +80,21 @@ void ServerPlayer::sendBoxMessage(BoxMessage boxMessage)
 	socket.send(packet);
 }
 
+void ServerPlayer::createScoreMessage(int scoreLeft, int scoreRight)
+{
+	ScoreMessage scoreMessage;
+	scoreMessage.scoreLeft = scoreLeft;
+	scoreMessage.scoreRight = scoreRight;
+	sendScoreMessage(scoreMessage);
+}
+
+void ServerPlayer::sendScoreMessage(ScoreMessage scoreMessage)
+{
+	Packet packet;
+	packet << scoreMessage.scoreLeft << scoreMessage.scoreRight;
+	socket.send(packet);
+}
+
 /*
 need to send player rotation 
 then collision

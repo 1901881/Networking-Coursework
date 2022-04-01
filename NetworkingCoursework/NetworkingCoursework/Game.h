@@ -23,8 +23,10 @@ public:
 	void initScoreLine();
 	void initText();
 	void scoreLineUpdate();
+	void setScoreLineText();
 	void playerCollisionUpdate();
 	void boxCollisionUpdate();
+
 
 private:
 	int boxAmount = 5;

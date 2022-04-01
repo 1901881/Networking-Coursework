@@ -7,7 +7,7 @@ struct PlayerMessage
 	float velocityX, velocityY; //Position of the player within the game world
 	//float time; //Time of the message sent, used for working out prediction
 	int angle;
-
+	float timeSent;
 
 	//id = 1 = Server
 	//id = 2 = Client
@@ -21,5 +21,6 @@ struct BoxMessage
 
 struct ScoreMessage
 {
-
+	int scoreLeft;
+	int scoreRight;
 };

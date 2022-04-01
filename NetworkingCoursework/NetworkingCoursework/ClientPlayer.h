@@ -16,10 +16,16 @@ public:
 	void runTcpClient(unsigned short port);
 	void receivePlayerMessage();
 	void receiveBoxMessage();
+	void receiveScoreMessage();
+
+	void addServerPlayerMessage(PlayerMessage& msg);
+
+	sf::Vector2f runPrediction(float dt);
 
 	sf::Vector2f getServerPlayerVelocity() { return serverPlayerVelocity; }
 	PlayerMessage getServerPlayerMessage() { return serverPlayerMessage; }
 	BoxMessage getBoxMessage() { return boxMessage; }
+	ScoreMessage getScoreMessage() { return scoreMessage; }
 	
 
 private:
@@ -30,8 +36,10 @@ private:
 	sf::TcpSocket socket;
 
 
+	std::vector<PlayerMessage> serverPlayerMessageVector;
 	PlayerMessage serverPlayerMessage;
 	BoxMessage boxMessage;
+	ScoreMessage scoreMessage;
 
 	Vector2f serverPlayerVelocity;
 	float serverPlayerAngle;
