@@ -43,16 +43,20 @@ Game::Game(sf::RenderWindow* window)
 		//clientPlayer = new ClientPlayer();
 		//clientPlayer->runTcpClient(port);
 	}
-
 }
 
 Game::~Game()
 {
-	
+/*
+get three time stamps from server
+use them to figure out difference and use that variable to sync times
+*/
 }
 
 void Game::update(float dt)
 {
+	gameTime += dt;
+
 	if (serverBool)
 	{
 		playerCollisionUpdate();
@@ -62,9 +66,11 @@ void Game::update(float dt)
 		serverPlayer->Update(dt);
 		sf::Vector2f serverPlayerVelocity = serverPlayer->getVelocity();
 		int serverPlayerAngle = serverPlayer->getAngle();
-		serverPlayer->PlayerMove(serverPlayerVelocity);
+		serverPlayer->Move(serverPlayerVelocity);
 		serverPlayer->PlayerRotate(serverPlayerAngle);
-		server->createPlayerMessage(1, serverPlayerVelocity, serverPlayerAngle);
+
+		//if(rand variable = 2 play)
+
 		//std::cout << "Game cpp: " << serverPlayer->getSprite().getRotation() << std::endl;
 		///////////////////////////////////////////////
 
@@ -72,13 +78,36 @@ void Game::update(float dt)
 		boxTest->Update(dt);
 		sf::Vector2f boxVelocity = boxTest->getVelocity();
 		boxTest->MoveBox(boxVelocity);
-		server->createBoxMessage(3, boxVelocity);
 		///////////////////////////////////////////////
 
 
 		scoreLineUpdate();
-		server->createScoreMessage(scoreLeft, scoreRight);
 
+		
+
+		if (latency % 2 == 0)
+		{
+			PlayerMessage serverPlayerMessage;
+			serverPlayerMessage.id = 1;
+			serverPlayerMessage.velocityX = serverPlayerVelocity.x;
+			serverPlayerMessage.velocityY = serverPlayerVelocity.y;
+			serverPlayerMessage.angle = serverPlayerAngle;
+			serverPlayerMessage.timeSent = gameTime;
+			serverPlayerMessage.position = serverPlayer->getPosition();
+			server->createPlayerMessage(serverPlayerMessage);
+
+			BoxMessage boxMessage;
+			boxMessage.id = 3;
+			boxMessage.position = boxTest->getBoxPosition();
+			boxMessage.velocityX = boxVelocity.x;
+			boxMessage.velocityY = boxVelocity.y;
+			server->createBoxMessage(boxMessage);
+
+
+			server->createScoreMessage(scoreLeft, scoreRight);
+
+			
+		}
 
 	}
 	if (clientBool)
@@ -88,12 +117,14 @@ void Game::update(float dt)
 		//serverPlayer->PlayerMove(sf::Vector2f(client->getServerPlayerMessage().velocityX, client->getServerPlayerMessage().velocityY));
 		serverPlayer->PlayerRotate(client->getServerPlayerMessage().angle);
 
-		serverPlayer->PlayerMove(client->runPrediction(dt));
+		//serverPlayer->PlayerMove(client->runPrediction(dt));
+		serverPlayer->setPosition(client->runPrediction(dt));
 		//std::cout << "Game cpp client side: " << client->getServerPlayerMessage().angle << std::endl;
 
 		//update box here 
 		client->receiveBoxMessage();
-		boxTest->MoveBox(sf::Vector2f(client->getBoxMessage().velocityX, client->getBoxMessage().velocityY));
+		//boxTest->MoveBox(sf::Vector2f(client->getBoxMessage().velocityX, client->getBoxMessage().velocityY));
+		boxTest->setBoxPosition(client->getBoxMessage().position);
 
 		//Update score
 		client->receiveScoreMessage();
@@ -104,6 +135,7 @@ void Game::update(float dt)
 		//scoreLineUpdate();
 	}
 
+	latency++;
 }
 
 
@@ -232,3 +264,31 @@ void Game::boxCollisionUpdate()
 	sf::Vector2f boxPosition = boxTest->getSprite().getPosition();
 	//sf::Vector2f screenSize = sf::Vector2f(window->getSize().y / 2.0f);
 }
+
+/*
+Struct message
+
+message type enum
+
+const char array
+
+message size
+
+max size message = 400
+
+memcpy mempaste
+
+one general send function
+
+one general receive function
+
+
+player has create packet function
+
+create pointer to struct BaseMessage
+
+entity pointer 
+
+
+
+*/

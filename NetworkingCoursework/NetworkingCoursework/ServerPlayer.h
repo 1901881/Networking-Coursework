@@ -14,14 +14,17 @@ public:
 	~ServerPlayer();
 
 	void runTcpServer(unsigned short port);
-	void createPlayerMessage(int id, sf::Vector2f velocity, float angle);
+	void createPlayerMessage(PlayerMessage playerMessage);
 	void sendPlayerMessage(PlayerMessage serverPlayerMessage);
 
-	void createBoxMessage(int id, sf::Vector2f velocity);
+	void createBoxMessage(BoxMessage boxMessage);
 	void sendBoxMessage(BoxMessage boxMessage);
 
 	void createScoreMessage(int scoreLeft, int scoreRight);
 	void sendScoreMessage(ScoreMessage scoreMessage);
+
+	void sendPacket(sf::TcpSocket socket, ObjectInterface* object);
+
 private:
 
 	IpAddress ip = IpAddress::getLocalAddress();

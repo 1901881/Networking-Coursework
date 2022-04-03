@@ -15,6 +15,9 @@ public:
 	void setVelocity(sf::Vector2f velocity) { this->velocity = velocity; }
 	sf::Vector2f getVelocity() { return velocity; }
 
+	void setBoxPosition(sf::Vector2f position) { boxSprite.setPosition(position); }
+	sf::Vector2f getBoxPosition() { return boxSprite.getPosition(); }
+
 private:
 	sf::RenderWindow* window;
 

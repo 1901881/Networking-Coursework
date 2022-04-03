@@ -1,40 +1,21 @@
-﻿  ClientPlayer.cpp
-C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\ClientPlayer.cpp(96,55): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\ClientPlayer.cpp(96,55): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-  Game.cpp
-C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Player.h(20,58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(67,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(148,56): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-          and
-          [
-              T=float
-          ]
-C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(150,54): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-          and
-          [
-              T=float
-          ]
-C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(170,52): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Game.cpp(177,53): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-  ServerPlayer.cpp
-C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\ServerPlayer.cpp(56,30): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+﻿  ServerPlayer.cpp
   Source.cpp
-C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Player.h(20,58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Player.h(36,58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Generating Code...
-  NetworkingCoursework.vcxproj -> C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\x64\Debug\NetworkingCoursework.exe
+Game.obj : error LNK2005: "enum MessageType __cdecl decodeMessageType(int)" (?decodeMessageType@@YA?AW4MessageType@@H@Z) already defined in ClientPlayer.obj
+Game.obj : error LNK2005: "struct ScoreMessage NetworkContainer::scoreMessage" (?scoreMessage@NetworkContainer@@3UScoreMessage@@A) already defined in ClientPlayer.obj
+Game.obj : error LNK2005: "struct PlayerMessage NetworkContainer::playerMessage" (?playerMessage@NetworkContainer@@3UPlayerMessage@@A) already defined in ClientPlayer.obj
+Game.obj : error LNK2005: "struct BoxMessage NetworkContainer::boxMessage" (?boxMessage@NetworkContainer@@3UBoxMessage@@A) already defined in ClientPlayer.obj
+NetworkMessages.obj : error LNK2005: "enum MessageType __cdecl decodeMessageType(int)" (?decodeMessageType@@YA?AW4MessageType@@H@Z) already defined in ClientPlayer.obj
+NetworkMessages.obj : error LNK2005: "struct ScoreMessage NetworkContainer::scoreMessage" (?scoreMessage@NetworkContainer@@3UScoreMessage@@A) already defined in ClientPlayer.obj
+NetworkMessages.obj : error LNK2005: "struct PlayerMessage NetworkContainer::playerMessage" (?playerMessage@NetworkContainer@@3UPlayerMessage@@A) already defined in ClientPlayer.obj
+NetworkMessages.obj : error LNK2005: "struct BoxMessage NetworkContainer::boxMessage" (?boxMessage@NetworkContainer@@3UBoxMessage@@A) already defined in ClientPlayer.obj
+ServerPlayer.obj : error LNK2005: "enum MessageType __cdecl decodeMessageType(int)" (?decodeMessageType@@YA?AW4MessageType@@H@Z) already defined in ClientPlayer.obj
+ServerPlayer.obj : error LNK2005: "struct ScoreMessage NetworkContainer::scoreMessage" (?scoreMessage@NetworkContainer@@3UScoreMessage@@A) already defined in ClientPlayer.obj
+ServerPlayer.obj : error LNK2005: "struct PlayerMessage NetworkContainer::playerMessage" (?playerMessage@NetworkContainer@@3UPlayerMessage@@A) already defined in ClientPlayer.obj
+ServerPlayer.obj : error LNK2005: "struct BoxMessage NetworkContainer::boxMessage" (?boxMessage@NetworkContainer@@3UBoxMessage@@A) already defined in ClientPlayer.obj
+Source.obj : error LNK2005: "enum MessageType __cdecl decodeMessageType(int)" (?decodeMessageType@@YA?AW4MessageType@@H@Z) already defined in ClientPlayer.obj
+Source.obj : error LNK2005: "struct ScoreMessage NetworkContainer::scoreMessage" (?scoreMessage@NetworkContainer@@3UScoreMessage@@A) already defined in ClientPlayer.obj
+Source.obj : error LNK2005: "struct PlayerMessage NetworkContainer::playerMessage" (?playerMessage@NetworkContainer@@3UPlayerMessage@@A) already defined in ClientPlayer.obj
+Source.obj : error LNK2005: "struct BoxMessage NetworkContainer::boxMessage" (?boxMessage@NetworkContainer@@3UBoxMessage@@A) already defined in ClientPlayer.obj
+C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\x64\Debug\NetworkingCoursework.exe : fatal error LNK1169: one or more multiply defined symbols found

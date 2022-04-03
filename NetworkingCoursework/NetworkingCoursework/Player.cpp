@@ -175,3 +175,15 @@ void Player::UpdateCollision(sf::FloatRect playerBounds, sf::FloatRect boxBounds
 
 
 }
+
+sf::Packet Player::createPacket()
+{
+	sf::Packet packet;
+
+	packet << static_cast<int>(getType()) << getID() << getVelocity().x << getVelocity().y
+		<< getAngle() << timeSent << getPosition().x
+		<< getPosition().y;
+
+	return packet;
+}
+

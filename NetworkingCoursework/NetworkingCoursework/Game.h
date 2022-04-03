@@ -9,6 +9,12 @@
 
 #include <iostream>
 #include <string>
+#include <chrono>
+
+using std::chrono::duration_cast;
+using std::chrono::seconds;
+typedef std::chrono::steady_clock timingsClock;
+
 using namespace sf;
 
 class Game
@@ -56,6 +62,10 @@ private:
 	const unsigned short port = 50001;
 	bool serverBool = false;
 	bool clientBool = false;
+
+	int latency;
+
+	float gameTime = 0;
 
 	// Draw functions
 	void beginDraw();

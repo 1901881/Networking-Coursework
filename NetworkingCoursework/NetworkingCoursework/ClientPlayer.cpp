@@ -12,6 +12,8 @@ ClientPlayer::ClientPlayer(unsigned short port)
         p.velocityY = -2000;
         p.angle = -2000;
         p.id = -2000;
+        p.position.x = -2000;
+        p.position.y = -2000;
         serverPlayerMessageVector.push_back(p);
     }
 }
@@ -55,7 +57,7 @@ void ClientPlayer::receivePlayerMessage()
     PlayerMessage serverPlayerMessage;
     Packet packet;
     socket.receive(packet);
-    if (packet >> serverPlayerMessage.id >> serverPlayerMessage.velocityX >> serverPlayerMessage.velocityY >> serverPlayerMessage.angle)
+    if (packet >> serverPlayerMessage.id >> serverPlayerMessage.velocityX >> serverPlayerMessage.velocityY >> serverPlayerMessage.angle >> serverPlayerMessage.timeSent >> serverPlayerMessage.position.x >> serverPlayerMessage.position.y)
     {
      	//update server player infor on client side
         //std::cout << "player velocity x " << serverPlayerMessage.velocityX << std::endl;
@@ -70,7 +72,7 @@ void ClientPlayer::receiveBoxMessage()
     BoxMessage boxMessage;
     Packet packet;
     socket.receive(packet);
-    if (packet >> boxMessage.id >> boxMessage.velocityX >> boxMessage.velocityY)
+    if (packet >> boxMessage.id >> boxMessage.velocityX >> boxMessage.velocityY >> boxMessage.position.x >> boxMessage.position.y)
     {
         //update server player infor on client side
         //std::cout << "player velocity x " << serverPlayerMessage.velocityX << std::endl;
@@ -96,9 +98,9 @@ sf::Vector2f ClientPlayer::runPrediction(float dt)
     const int msize = serverPlayerMessageVector.size();
 
     //waits until the vector is filled with the client sides data before running prediction
-    if (serverPlayerMessageVector[2].velocityX == -2000)
+    if (serverPlayerMessageVector[2].position.x == -2000)
     {
-        return sf::Vector2f(serverPlayerMessage.velocityX, serverPlayerMessage.velocityY);
+        return sf::Vector2f(serverPlayerMessage.position.x, serverPlayerMessage.position.y);
     }
     int msg0Size = msize - 1;
     int msg1Size = msize - 2;
@@ -112,10 +114,10 @@ sf::Vector2f ClientPlayer::runPrediction(float dt)
     //displacement = speed*time
     //speed = distance between last two position / time between last two positions
 
-    float speed = ((msg0.velocityX - msg1.velocityX) - (msg0.velocityY - msg1.velocityY)) / (msg0.timeSent - msg1.timeSent);
+    float speed = ((msg0.position.x - msg1.position.x) - (msg0.position.y - msg1.position.y)) / (msg0.timeSent - msg1.timeSent);
     float displacement = speed * (dt - msg0.timeSent);
-    float nextPositionX = msg0.velocityX + displacement;
-    float nextPositionY = msg0.velocityY + displacement;
+    float nextPositionX = msg0.position.x + displacement;
+    float nextPositionY = msg0.position.y + displacement;
     return sf::Vector2f(nextPositionX, nextPositionY);
 
     //add latency
@@ -131,6 +133,10 @@ sf::Vector2f ClientPlayer::runPrediction(float dt)
 
     set as predictid velocity
     then use that in game to move player.
+
+    ////////////////////////////////////////
+
+    need to run it off position
     */
 
 }

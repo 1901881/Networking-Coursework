@@ -47,36 +47,38 @@ send player message
 
 */
 
-void ServerPlayer::createPlayerMessage(int id, sf::Vector2f velocity, float angle)
+void ServerPlayer::createPlayerMessage(PlayerMessage playerMessage)
 {
 	PlayerMessage serverPlayerMessage;
-	serverPlayerMessage.id = id;
-	serverPlayerMessage.velocityX = velocity.x;
-	serverPlayerMessage.velocityY = velocity.y;
-	serverPlayerMessage.angle = angle;
+	serverPlayerMessage.id = playerMessage.id;
+	serverPlayerMessage.velocityX = playerMessage.velocityX;
+	serverPlayerMessage.velocityY = playerMessage.velocityY;
+	serverPlayerMessage.angle = playerMessage.angle;
+	serverPlayerMessage.position = playerMessage.position;
+	serverPlayerMessage.timeSent = playerMessage.timeSent;
 	sendPlayerMessage(serverPlayerMessage);
 }
 
 void ServerPlayer::sendPlayerMessage(PlayerMessage serverPlayerMessage)
 {
 	Packet packet;
-	packet << serverPlayerMessage.id << serverPlayerMessage.velocityX << serverPlayerMessage.velocityY << serverPlayerMessage.angle;
+	packet << serverPlayerMessage.id << serverPlayerMessage.velocityX << serverPlayerMessage.velocityY << serverPlayerMessage.angle << serverPlayerMessage.timeSent << serverPlayerMessage.position.x << serverPlayerMessage.position.y;
 	socket.send(packet);
 }
 
-void ServerPlayer::createBoxMessage(int id, sf::Vector2f velocity)
+void ServerPlayer::createBoxMessage(BoxMessage boxMessage)
 {
-	BoxMessage boxMessage;
-	boxMessage.id = id;
-	boxMessage.velocityX = velocity.x;
-	boxMessage.velocityY = velocity.y;
+	//BoxMessage newBoxMessage;
+	//newBoxMessage.id = boxMessage.id;
+	//newBoxMessage.velocityX = bvelocity.x;
+	//newBoxMessage.velocityY = velocity.y;
 	sendBoxMessage(boxMessage);
 }
 
 void ServerPlayer::sendBoxMessage(BoxMessage boxMessage)
 {
 	Packet packet;
-	packet << boxMessage.id << boxMessage.velocityX << boxMessage.velocityY;
+	packet << boxMessage.id << boxMessage.velocityX << boxMessage.velocityY << boxMessage.position.x << boxMessage.position.y;
 	socket.send(packet);
 }
 
@@ -93,6 +95,11 @@ void ServerPlayer::sendScoreMessage(ScoreMessage scoreMessage)
 	Packet packet;
 	packet << scoreMessage.scoreLeft << scoreMessage.scoreRight;
 	socket.send(packet);
+}
+
+void ServerPlayer::sendPacket(sf::TcpSocket socket, ObjectInterface* object)
+{
+	//sendMessage(socket, object);
 }
 
 /*

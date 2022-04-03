@@ -3,26 +3,45 @@
 #include <vector>
 #include <iostream>
 
+#include "ObjectInterface.h"
+
 using namespace std;
 
-class Player
+class Player : public ObjectInterface
 {
 public:
 	Player(sf::RenderWindow* window, sf::Vector2f position, string textureName);
 	~Player();
 
-	void Update(float dt);
-	void Render();
+
+	//Interface Implementation//
+	void Update(float dt) override;
+	void Render() override;
+	void Move(sf::Vector2f velocity) override { playerSprite.move(velocity); }
+
+	///Sending Messages//
+	sf::Packet createPacket();
+	ObjectType getType() { return ObjectType::Player; }
+
+	int getID() { return ID; }
+	void setID(int ID) { this->ID = ID; }
+
+	float getTimeSent() { return timeSent; }
+	void setTimeSent(float timeSent) { this->timeSent = timeSent; }
+
+
 	void HandleInput(float dt);
 	void CheckCollision(float dt);
 	void UpdateCollision(sf::FloatRect playerBounds, sf::FloatRect boxBounds);
-	void PlayerMove(sf::Vector2f velocity) { playerSprite.move(velocity); }
 	void PlayerRotate(int angle) { playerSprite.setRotation(angle); }
+
 
 	int getAngle() { return angle; }
 	sf::Vector2f getVelocity() { return velocity; };
 	void setVelocity(sf::Vector2f velocity) { this->velocity = velocity; }
 	sf::Sprite getSprite() { return playerSprite; };
+	sf::Vector2f getPosition() { return playerSprite.getPosition();};
+	void setPosition(sf::Vector2f position) { playerSprite.setPosition(position); }
 	sf::Vector2f getNewBoxPositionAddOn() { return newBoxPositionAddOn; };
 	void setNewBoxPositionAddOn(sf::Vector2f newBoxPositionAddOn) { this->newBoxPositionAddOn = newBoxPositionAddOn; }
 	
@@ -45,6 +64,10 @@ private:
 	float movementSpeed = 300.0f;
 
 	int angle = 0;
+
+	int ID;
+
+	float timeSent;
 };
 
 
