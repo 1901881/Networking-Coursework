@@ -32,8 +32,8 @@ public:
 	void initText();
 	void scoreLineUpdate();
 	void setScoreLineText();
-	void playerCollisionUpdate();
-	void boxCollisionUpdate();
+	void playerCollisionUpdate(Player* player, BoxManager* box);
+	void boxCollisionUpdate(Player* player, BoxManager* box);
 
 
 private:
@@ -47,6 +47,7 @@ private:
 	//ServerPlayer* server;
 	//ClientPlayer* client;
 	Player* serverPlayer;
+	Player* clientPlayer;
 	ScoreLine* scoreLine;
 	//BoxManager* boxManager[5];
 

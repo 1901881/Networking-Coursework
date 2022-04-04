@@ -151,6 +151,7 @@ sf::Vector2f ClientPlayer::runPrediction(float dt)
     {
         //return sf::Vector2f(serverPlayerMessage.position.x, serverPlayerMessage.position.y);
         return sf::Vector2f(networkMessagesContainer.getPlayerMessage().position);
+       // return sf::Vector2f(500, 500);
     }
     int msg0Size = msize - 1;
     int msg1Size = msize - 2;
@@ -168,8 +169,8 @@ sf::Vector2f ClientPlayer::runPrediction(float dt)
     float displacement = speed * (dt - msg0.timeSent);
     float nextPositionX = msg0.position.x + displacement;
     float nextPositionY = msg0.position.y + displacement;
-    //return sf::Vector2f(nextPositionX, nextPositionY);
-    return sf::Vector2f(1, 1);
+    return sf::Vector2f(nextPositionX, nextPositionY);
+    //return sf::Vector2f(1, 1);
 
     ////add latency
 

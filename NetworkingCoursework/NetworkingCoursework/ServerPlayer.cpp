@@ -7,6 +7,18 @@ ServerPlayer::ServerPlayer(unsigned short port)
 
 ServerPlayer::~ServerPlayer()
 {
+	//maybe change this to nand
+	for (int x = 0; x < 3; x++)
+	{
+		PlayerMessage p;
+		p.velocityX = -2000;//arbitrary values used for testing 
+		p.velocityY = -2000;
+		p.angle = -2000;
+		p.id = -2000;
+		p.position.x = -2000;
+		p.position.y = -2000;
+		clientPlayerMessageVector.push_back(p);
+	}
 }
 
 void ServerPlayer::runNetwork(unsigned short port)
@@ -117,6 +129,7 @@ void ServerPlayer::receivePlayerPacket(sf::Packet packet)
 		//std::cout << "Client cpp: " << playerMessage.angle << std::endl;
 		//NetworkContainer::playerMessage = playerMessage;
 		networkMessagesContainer.setPlayerMessage(playerMessage);
+		clientPlayerMessageVector.push_back(playerMessage);
 	}
 }
 
@@ -183,8 +196,8 @@ sf::Vector2f ServerPlayer::runPrediction(float dt)
 	float displacement = speed * (dt - msg0.timeSent);
 	float nextPositionX = msg0.position.x + displacement;
 	float nextPositionY = msg0.position.y + displacement;
-	//return sf::Vector2f(nextPositionX, nextPositionY);
-	return sf::Vector2f(1, 1);
+	return sf::Vector2f(nextPositionX, nextPositionY);
+	//return sf::Vector2f(1, 1);
 
 	////add latency
 

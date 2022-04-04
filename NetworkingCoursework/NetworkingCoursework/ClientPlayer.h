@@ -14,8 +14,8 @@ class ClientPlayer : public NetworkInterface
 public:
 	ClientPlayer(unsigned short port);
 	~ClientPlayer();
-	void runNetwork(unsigned short port) override;
 
+	void runNetwork(unsigned short port) override;
 	void sendMessage(ObjectInterface* object) override;
 	void receivePacket() override;
 

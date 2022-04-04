@@ -11,6 +11,7 @@ Game::Game(sf::RenderWindow* window)
 
 
 	serverPlayer = new Player(window, sf::Vector2f(50, 250), "media/BoxPusher.png", 1);
+	clientPlayer = new Player(window, sf::Vector2f(500, 50), "media/BoxPusherRed.png", 2);
 
 	//for (int i = 0; i < boxAmount; i++) {
 	//	sf::Vector2f boxPosition = sf::Vector2f(i * 70, i * 70);
@@ -69,8 +70,8 @@ void Game::update(float dt)
 
 	if (serverBool)
 	{
-		playerCollisionUpdate();
-		boxCollisionUpdate();
+		playerCollisionUpdate(serverPlayer, boxTest);
+		boxCollisionUpdate(serverPlayer, boxTest);
 
 		//Server player update///////////////////////////
 		serverPlayer->Update(dt);
@@ -120,13 +121,20 @@ void Game::update(float dt)
 			
 			
 
-			serverPlayer->setTimeSent(gameTime);
-			networkObject->sendMessage(serverPlayer);
+
 
 			networkObject->sendMessage(boxTest);
 
 			networkObject->sendMessage(scoreLine);
 			
+
+			///////////////////////////
+
+			//Client Player Move//
+			networkObject->receivePacket();
+			//serverPlayer->setPosition(networkMessagesContainer.getPlayerMessage().position);
+			serverPlayer->setPosition(networkObject->runPrediction(dt));
+			serverPlayer->PlayerRotate(networkMessagesContainer.getPlayerMessage().angle);
 		}
 
 	}
@@ -170,6 +178,18 @@ void Game::update(float dt)
 		//scoreRight = networkMessagesContainer.getScoreMessage().scoreRight;
 		//setScoreLineText();
 
+
+		//Client player update///////////////////////////
+		playerCollisionUpdate(clientPlayer, boxTest);
+		boxCollisionUpdate(clientPlayer, boxTest);
+		clientPlayer->Update(dt);
+		sf::Vector2f clientPlayerVelocity = clientPlayer->getVelocity();
+		int clientPlayerAngle = clientPlayer->getAngle();
+		clientPlayer->Move(clientPlayerVelocity);
+		clientPlayer->PlayerRotate(clientPlayerAngle);
+
+		clientPlayer->setTimeSent(gameTime);
+		networkObject->sendMessage(clientPlayer);
 	}
 
 
@@ -198,6 +218,7 @@ void Game::render(float dt)
 	scoreLine->Render();
 	boxTest->Render();
 	serverPlayer->Render();
+	clientPlayer->Render();
 
 
 	//window->draw(titleText);
@@ -278,34 +299,34 @@ void Game::setScoreLineText()
 	scoreTextLeft.setString(scoreStringLeft);*/
 }
 
-void Game::playerCollisionUpdate()
+void Game::playerCollisionUpdate(Player* player, BoxManager* box)
 {
 	//Collision
 	FloatRect nextPos;//get players next position
 	//for (auto &box : boxes)
-	FloatRect playerBounds = serverPlayer->getSprite().getGlobalBounds();
+	FloatRect playerBounds = player->getSprite().getGlobalBounds();
 	//FloatRect playerBounds = serverPlayer->getPlayer()->getSprite().getGlobalBounds();
-	FloatRect boxBounds = boxTest->getSprite().getGlobalBounds();
+	FloatRect boxBounds = box->getSprite().getGlobalBounds();
 	nextPos = playerBounds;
-	nextPos.left += serverPlayer->getVelocity().x;
+	nextPos.left += player->getVelocity().x;
 	//nextPos.left += serverPlayer->getPlayer()->getVelocity().x;
-	nextPos.top += serverPlayer->getVelocity().y;
+	nextPos.top += player->getVelocity().y;
 	//nextPos.top += serverPlayer->getPlayer()->getVelocity().y;
-	serverPlayer->UpdateCollision(playerBounds, boxBounds);
+	player->UpdateCollision(playerBounds, boxBounds);
 	//serverPlayer->getPlayer()->UpdateCollision(playerBounds, boxBounds);
 }
 
-void Game::boxCollisionUpdate()
+void Game::boxCollisionUpdate(Player* player, BoxManager* box)
 {
-	Vector2f newBoxPositionAddOn = serverPlayer->getNewBoxPositionAddOn();
+	Vector2f newBoxPositionAddOn = player->getNewBoxPositionAddOn();
 	//Vector2f newBoxPositionAddOn = serverPlayer->getPlayer()->getNewBoxPositionAddOn();
-	boxTest->setVelocity(newBoxPositionAddOn);
+	box->setVelocity(newBoxPositionAddOn);
 	//boxTest->Update(dt);
 
-	serverPlayer->setNewBoxPositionAddOn(sf::Vector2f(0.0f, 0.0f));
+	player->setNewBoxPositionAddOn(sf::Vector2f(0.0f, 0.0f));
 	//serverPlayer->getPlayer()->setNewBoxPositionAddOn(sf::Vector2f(0.0f, 0.0f));
 
-	sf::Vector2f boxPosition = boxTest->getSprite().getPosition();
+	sf::Vector2f boxPosition = box->getSprite().getPosition();
 	//sf::Vector2f screenSize = sf::Vector2f(window->getSize().y / 2.0f);
 }
 
