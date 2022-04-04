@@ -26,6 +26,7 @@
     <ClCompile Include="NetworkMessages.cpp" />
     <ClCompile Include="ObjectInterface.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ScoreLine.cpp" />
     <ClCompile Include="ServerPlayer.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
@@ -37,6 +38,7 @@
     <ClInclude Include="NetworkMessages.h" />
     <ClInclude Include="ObjectInterface.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="ScoreLine.h" />
     <ClInclude Include="ServerPlayer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

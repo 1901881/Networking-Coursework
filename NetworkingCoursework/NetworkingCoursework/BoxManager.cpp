@@ -35,7 +35,7 @@ sf::Packet BoxManager::createPacket()
 	sf::Packet packet;
 
 	packet << static_cast<int>(getMessageType()) << getID() << getVelocity().x << getVelocity().y
-		<< getBoxPosition().x << getBoxPosition().y;
+		<< getPosition().x << getPosition().y;
 
 	return packet;
 }

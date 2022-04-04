@@ -86,12 +86,15 @@ void ServerPlayer::sendMessage(ObjectInterface* object)
 	{
 	case ObjectType::Player:
 		// fill packet with data
-		packet << static_cast<int>(object->getMessageType()) << object->getID() << object->getVelocity().x << object->getVelocity().y
-			<< object->getAngle() << object->getTimeSent() << object->getPosition().x
-			<< object->getPosition().y;
+		packet = object->createPacket();
 		break;
 	case ObjectType::Box:
 		// code block
+		packet = object->createPacket();
+		break;
+	case ObjectType::Score:
+		// code block
+		packet = object->createPacket();
 		break;
 	default:
 		//cout broke

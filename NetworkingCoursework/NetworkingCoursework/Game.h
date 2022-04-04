@@ -7,6 +7,7 @@
 #include "BoxManager.h"
 #include "NetworkMessages.h"
 #include "NetworkInterface.h"
+#include "ScoreLine.h"
 
 #include <iostream>
 #include <string>
@@ -46,9 +47,10 @@ private:
 	ServerPlayer* server;
 	ClientPlayer* client;
 	Player* serverPlayer;
+	ScoreLine* scoreLine;
 	//BoxManager* boxManager[5];
 
-	sf::RectangleShape scoreLine;
+	//sf::RectangleShape scoreLine;
 	//std::vector<BoxManager*> boxes;
 
 

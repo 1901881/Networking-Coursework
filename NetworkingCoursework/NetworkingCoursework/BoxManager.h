@@ -26,7 +26,6 @@ public:
 
 
 	void setBoxPosition(sf::Vector2f position) { boxSprite.setPosition(position); }
-	sf::Vector2f getBoxPosition() { return boxSprite.getPosition(); }
 
 	//Not needed//
 	sf::Vector2f getVelocity() override { return velocity; }

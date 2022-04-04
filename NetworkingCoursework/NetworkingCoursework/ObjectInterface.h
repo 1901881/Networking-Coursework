@@ -10,7 +10,8 @@ enum class ObjectType
 {
 	Invalid = -1,
 	Box,
-	Player
+	Player,
+	Score
 };
 
 class ObjectInterface
