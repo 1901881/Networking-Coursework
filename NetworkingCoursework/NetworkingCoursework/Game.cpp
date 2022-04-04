@@ -152,7 +152,8 @@ void Game::update(float dt)
 
 		//Server Player Move//
 		networkObject->receivePacket();
-		serverPlayer->setPosition(networkMessagesContainer.getPlayerMessage().position);
+		//serverPlayer->setPosition(networkMessagesContainer.getPlayerMessage().position);
+		serverPlayer->setPosition(networkObject->runPrediction(dt));
 		serverPlayer->PlayerRotate(networkMessagesContainer.getPlayerMessage().angle);
 
 		networkObject->receivePacket();

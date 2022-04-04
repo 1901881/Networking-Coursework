@@ -7,14 +7,14 @@ ClientPlayer::ClientPlayer(unsigned short port)
     //maybe change this to nand
     for (int x = 0; x < 3; x++)
     {
-        //PlayerMessage p;
-        //p.velocityX = -2000;//arbitrary values used for testing 
-        //p.velocityY = -2000;
-        //p.angle = -2000;
-        //p.id = -2000;
-        //p.position.x = -2000;
-        //p.position.y = -2000;
-        //serverPlayerMessageVector.push_back(p);
+        PlayerMessage p;
+        p.velocityX = -2000;//arbitrary values used for testing 
+        p.velocityY = -2000;
+        p.angle = -2000;
+        p.id = -2000;
+        p.position.x = -2000;
+        p.position.y = -2000;
+        serverPlayerMessageVector.push_back(p);
     }
 }
 
@@ -109,6 +109,7 @@ void ClientPlayer::receivePlayerPacket(sf::Packet packet)
         //NetworkContainer::playerMessage = playerMessage;
         sf::Vector2f playerPosition = playerMessage.position;
         networkMessagesContainer.setPlayerMessage(playerMessage);
+        serverPlayerMessageVector.push_back(playerMessage);
     }
 }
 
@@ -142,30 +143,31 @@ void ClientPlayer::receiveScorePacket(sf::Packet packet)
 
 sf::Vector2f ClientPlayer::runPrediction(float dt)
 {
-    //const int msize = serverPlayerMessageVector.size();
+    extern NetworkMessages networkMessagesContainer;
+    const int msize = serverPlayerMessageVector.size();
 
-    ////waits until the vector is filled with the client sides data before running prediction
-    //if (serverPlayerMessageVector[2].position.x == -2000)
-    //{
-    //    //return sf::Vector2f(serverPlayerMessage.position.x, serverPlayerMessage.position.y);
-    //    return sf::Vector2f(NetworkContainer::playerMessage.position.x, NetworkContainer::playerMessage.position.y);
-    //}
-    //int msg0Size = msize - 1;
-    //int msg1Size = msize - 2;
-    //int msg2Size = msize - 3;
-    //const PlayerMessage& msg0 = serverPlayerMessageVector[msg0Size];
-    //const PlayerMessage& msg1 = serverPlayerMessageVector[msg1Size];
-    //const PlayerMessage& msg2 = serverPlayerMessageVector[msg2Size];
+    //waits until the vector is filled with the client sides data before running prediction
+    if (serverPlayerMessageVector[2].position.x == -2000)
+    {
+        //return sf::Vector2f(serverPlayerMessage.position.x, serverPlayerMessage.position.y);
+        return sf::Vector2f(networkMessagesContainer.getPlayerMessage().position);
+    }
+    int msg0Size = msize - 1;
+    int msg1Size = msize - 2;
+    int msg2Size = msize - 3;
+    const PlayerMessage& msg0 = serverPlayerMessageVector[msg0Size];
+    const PlayerMessage& msg1 = serverPlayerMessageVector[msg1Size];
+    const PlayerMessage& msg2 = serverPlayerMessageVector[msg2Size];
 
-    ////Linear
-    ////Next position = previous position + displacement
-    ////displacement = speed*time
-    ////speed = distance between last two position / time between last two positions
+    //Linear
+    //Next position = previous position + displacement
+    //displacement = speed*time
+    //speed = distance between last two position / time between last two positions
 
-    //float speed = ((msg0.position.x - msg1.position.x) - (msg0.position.y - msg1.position.y)) / (msg0.timeSent - msg1.timeSent);
-    //float displacement = speed * (dt - msg0.timeSent);
-    //float nextPositionX = msg0.position.x + displacement;
-    //float nextPositionY = msg0.position.y + displacement;
+    float speed = ((msg0.position.x - msg1.position.x) - (msg0.position.y - msg1.position.y)) / (msg0.timeSent - msg1.timeSent);
+    float displacement = speed * (dt - msg0.timeSent);
+    float nextPositionX = msg0.position.x + displacement;
+    float nextPositionY = msg0.position.y + displacement;
     //return sf::Vector2f(nextPositionX, nextPositionY);
     return sf::Vector2f(1, 1);
 
@@ -192,9 +194,9 @@ sf::Vector2f ClientPlayer::runPrediction(float dt)
 
 void ClientPlayer::addServerPlayerMessage(PlayerMessage& msg)
 {
-    ////when a new message is sent it shuffles all the other messages into the next slot in memory
-    //serverPlayerMessageVector[2] = serverPlayerMessageVector[1];
-    //serverPlayerMessageVector[1] = serverPlayerMessageVector[0];
-    //serverPlayerMessageVector[0] = msg;
+    //when a new message is sent it shuffles all the other messages into the next slot in memory
+    serverPlayerMessageVector[2] = serverPlayerMessageVector[1];
+    serverPlayerMessageVector[1] = serverPlayerMessageVector[0];
+    serverPlayerMessageVector[0] = msg;
 }
 

@@ -44,8 +44,8 @@ private:
 
 	// Simulation elements
 	NetworkInterface* networkObject;
-	ServerPlayer* server;
-	ClientPlayer* client;
+	//ServerPlayer* server;
+	//ClientPlayer* client;
 	Player* serverPlayer;
 	ScoreLine* scoreLine;
 	//BoxManager* boxManager[5];

@@ -147,3 +147,61 @@ void ServerPlayer::receiveScorePacket(sf::Packet packet)
 		networkMessagesContainer.setScoreMessage(scoreMessage);
 	}
 }
+
+void ServerPlayer::addClientPlayerMessage(PlayerMessage& msg)
+{
+	//when a new message is sent it shuffles all the other messages into the next slot in memory
+	clientPlayerMessageVector[2] = clientPlayerMessageVector[1];
+	clientPlayerMessageVector[1] = clientPlayerMessageVector[0];
+	clientPlayerMessageVector[0] = msg;
+}
+
+sf::Vector2f ServerPlayer::runPrediction(float dt)
+{
+	extern NetworkMessages networkMessagesContainer;
+	const int msize = clientPlayerMessageVector.size();
+
+	//waits until the vector is filled with the client sides data before running prediction
+	if (clientPlayerMessageVector[2].position.x == -2000)
+	{
+		//return sf::Vector2f(serverPlayerMessage.position.x, serverPlayerMessage.position.y);
+		return sf::Vector2f(networkMessagesContainer.getPlayerMessage().position);
+	}
+	int msg0Size = msize - 1;
+	int msg1Size = msize - 2;
+	int msg2Size = msize - 3;
+	const PlayerMessage& msg0 = clientPlayerMessageVector[msg0Size];
+	const PlayerMessage& msg1 = clientPlayerMessageVector[msg1Size];
+	const PlayerMessage& msg2 = clientPlayerMessageVector[msg2Size];
+
+	//Linear
+	//Next position = previous position + displacement
+	//displacement = speed*time
+	//speed = distance between last two position / time between last two positions
+
+	float speed = ((msg0.position.x - msg1.position.x) - (msg0.position.y - msg1.position.y)) / (msg0.timeSent - msg1.timeSent);
+	float displacement = speed * (dt - msg0.timeSent);
+	float nextPositionX = msg0.position.x + displacement;
+	float nextPositionY = msg0.position.y + displacement;
+	//return sf::Vector2f(nextPositionX, nextPositionY);
+	return sf::Vector2f(1, 1);
+
+	////add latency
+
+	///*
+	//need to get liner prediction calculation
+
+	//need delta time and time sent
+
+	//save velocity when sent
+
+	//ignore null references
+
+	//set as predictid velocity
+	//then use that in game to move player.
+
+	//////////////////////////////////////////
+
+	//need to run it off position
+	//*/
+}

@@ -26,7 +26,7 @@ public:
 
 
 	void addServerPlayerMessage(PlayerMessage& msg);
-	sf::Vector2f runPrediction(float dt);
+	sf::Vector2f runPrediction(float dt) override;
 
 
 	
@@ -39,7 +39,7 @@ private:
 	sf::TcpSocket socket;
 
 
-	//std::vector<PlayerMessage> serverPlayerMessageVector;
+	std::vector<PlayerMessage> serverPlayerMessageVector;
 	//PlayerMessage serverPlayerMessage;
 	//BoxMessage boxMessage;
 	//ScoreMessage scoreMessage;

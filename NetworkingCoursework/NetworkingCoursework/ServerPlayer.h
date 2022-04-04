@@ -23,6 +23,9 @@ public:
 	void receiveBoxPacket(sf::Packet packet);
 	void receiveScorePacket(sf::Packet packet);
 
+	void addClientPlayerMessage(PlayerMessage& msg);
+	sf::Vector2f runPrediction(float dt) override;
+
 
 private:
 
@@ -32,7 +35,7 @@ private:
 
 	sf::TcpSocket socket;
 
-
+	std::vector<PlayerMessage> clientPlayerMessageVector;
 
 	bool clientConnected = false;
 };

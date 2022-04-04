@@ -17,6 +17,8 @@ public:
 	//virtual void receiveScorePacket(sf::Packet packet) = 0;
 
 	virtual void sendMessage(ObjectInterface* object) = 0;
+
+	virtual sf::Vector2f runPrediction(float dt) = 0;
 };
 
 /*
