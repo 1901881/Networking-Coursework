@@ -1,18 +1,15 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
-#include "ObjectInterface.h"
 #include <iostream>
 
 enum class MessageType : int
 {
 	Invalid = -1,
-	Player,
+	Player = 0,
 	Box,
 	Score
 };
-
-MessageType decodeMessageType(int encodedMessageType) { return static_cast<MessageType>(encodedMessageType); }
 
 struct BaseMessage
 {
@@ -20,7 +17,6 @@ struct BaseMessage
 	int timeSent;
 };
 
-//Message struct for the use of updating the position and computing prediction
 struct PlayerMessage : public BaseMessage
 {
 	int id; //Object number of the player within the game world
@@ -50,22 +46,46 @@ struct ScoreMessage : public BaseMessage
 };
 
 
-void receivePacket(sf::TcpSocket socket);
-void receivePlayerPacket(sf::Packet packet);
-void receiveBoxPacket(sf::Packet packet);
-void receiveScorePacket(sf::Packet packet);
-
-void sendMessage(sf::TcpSocket socket, sf::Packet packet);
-void sendPlayerPacket(sf::TcpSocket socket, sf::Packet packet);
-void sendBoxPacket(sf::TcpSocket socket, sf::Packet packet);
-void sendScorePacket(sf::TcpSocket socket, sf::Packet packet);
-
-namespace NetworkContainer
+class NetworkMessages
 {
+public:
+
+	MessageType decodeMessageType(int encodedMessageType) { return static_cast<MessageType>(encodedMessageType); }
+	
+	void setPlayerMessage(PlayerMessage playerMessage) { 
+		this->playerMessage = playerMessage; }
+	PlayerMessage getPlayerMessage() { return playerMessage; }
+
+	void setBoxMessage(BoxMessage boxMessage) { this->boxMessage = boxMessage; }
+	BoxMessage getBoxMessage() { return boxMessage; }
+
+	void setScoreMessage(ScoreMessage scoreMessage) { this->scoreMessage = scoreMessage; }
+	ScoreMessage getScoreMessage() { return scoreMessage; }
+
+private:
+
 	PlayerMessage playerMessage;
 	BoxMessage boxMessage;
 	ScoreMessage scoreMessage;
-}
+};
 
 
 
+
+
+
+
+/*
+1
+1
+not
+2
+2
+kermit
+your mum
+zara 
+merry berry with a hat
+your sister
+
+
+*/

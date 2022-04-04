@@ -1,4 +1,7 @@
- #include "Game.h"
+#include "Game.h"
+
+//Global container for messages
+NetworkMessages networkMessagesContainer;
 
 Game::Game(sf::RenderWindow* window)
 {
@@ -7,7 +10,7 @@ Game::Game(sf::RenderWindow* window)
 
 
 
-	serverPlayer = new Player(window, sf::Vector2f(50, 250), "media/BoxPusher.png");
+	serverPlayer = new Player(window, sf::Vector2f(50, 250), "media/BoxPusher.png", 1);
 
 	//for (int i = 0; i < boxAmount; i++) {
 	//	sf::Vector2f boxPosition = sf::Vector2f(i * 70, i * 70);
@@ -30,18 +33,20 @@ Game::Game(sf::RenderWindow* window)
 	if (who == 's')
 	{
 		std::cout << "Server Run" << std::endl;
-		server = new ServerPlayer(port);
+		//server = new ServerPlayer(port);
 		serverBool = true;
 		//serverPlayer = new ServerPlayer(window);
 		//serverPlayer->runTcpServer(port);
+		networkObject = new ServerPlayer(port);
 	}
 	else if (who == 'c')
 	{
 		std::cout << "Client Run" << std::endl;
-		client = new ClientPlayer(port);
+		//client = new ClientPlayer(port);
 		clientBool = true;
 		//clientPlayer = new ClientPlayer();
 		//clientPlayer->runTcpClient(port);
+		networkObject = new ClientPlayer(port);
 	}
 }
 
@@ -55,6 +60,9 @@ use them to figure out difference and use that variable to sync times
 
 void Game::update(float dt)
 {
+	extern NetworkMessages networkMessagesContainer;
+	
+
 	gameTime += dt;
 
 	if (serverBool)
@@ -77,7 +85,7 @@ void Game::update(float dt)
 		/////Box update////////////////////////////////
 		boxTest->Update(dt);
 		sf::Vector2f boxVelocity = boxTest->getVelocity();
-		boxTest->MoveBox(boxVelocity);
+		boxTest->Move(boxVelocity);
 		///////////////////////////////////////////////
 
 
@@ -85,27 +93,35 @@ void Game::update(float dt)
 
 		
 
-		if (latency % 2 == 0)
+		if (latency % 4 == 0)
 		{
-			PlayerMessage serverPlayerMessage;
-			serverPlayerMessage.id = 1;
-			serverPlayerMessage.velocityX = serverPlayerVelocity.x;
-			serverPlayerMessage.velocityY = serverPlayerVelocity.y;
-			serverPlayerMessage.angle = serverPlayerAngle;
-			serverPlayerMessage.timeSent = gameTime;
-			serverPlayerMessage.position = serverPlayer->getPosition();
-			server->createPlayerMessage(serverPlayerMessage);
+			//PlayerMessage serverPlayerMessage;
+			//serverPlayerMessage.id = 1;
+			//serverPlayerMessage.velocityX = serverPlayerVelocity.x;
+			//serverPlayerMessage.velocityY = serverPlayerVelocity.y;
+			//serverPlayerMessage.angle = serverPlayerAngle;
+			//serverPlayerMessage.timeSent = gameTime;
+			//serverPlayerMessage.position = serverPlayer->getPosition();
+			//server->createPlayerMessage(serverPlayerMessage);
 
-			BoxMessage boxMessage;
-			boxMessage.id = 3;
-			boxMessage.position = boxTest->getBoxPosition();
-			boxMessage.velocityX = boxVelocity.x;
-			boxMessage.velocityY = boxVelocity.y;
-			server->createBoxMessage(boxMessage);
+			//BoxMessage boxMessage;
+			//boxMessage.id = 3;
+			//boxMessage.position = boxTest->getBoxPosition();
+			//boxMessage.velocityX = boxVelocity.x;
+			//boxMessage.velocityY = boxVelocity.y;
+			//server->createBoxMessage(boxMessage);
 
 
-			server->createScoreMessage(scoreLeft, scoreRight);
+			//server->createScoreMessage(scoreLeft, scoreRight);
 
+			//networkObject->sendMessage();
+			
+			
+
+			serverPlayer->setTimeSent(gameTime);
+			networkObject->sendMessage(serverPlayer);
+
+			//networkObject->sendMessage(boxTest);
 			
 		}
 
@@ -113,27 +129,33 @@ void Game::update(float dt)
 	if (clientBool)
 	{
 
-		client->receivePlayerMessage();
-		//serverPlayer->PlayerMove(sf::Vector2f(client->getServerPlayerMessage().velocityX, client->getServerPlayerMessage().velocityY));
-		serverPlayer->PlayerRotate(client->getServerPlayerMessage().angle);
+		//client->receivePlayerMessage();
+		//serverPlayer->PlayerRotate(client->getServerPlayerMessage().angle);
 
-		//serverPlayer->PlayerMove(client->runPrediction(dt));
-		serverPlayer->setPosition(client->runPrediction(dt));
-		//std::cout << "Game cpp client side: " << client->getServerPlayerMessage().angle << std::endl;
+		//serverPlayer->setPosition(client->runPrediction(dt));
+		////std::cout << "Game cpp client side: " << client->getServerPlayerMessage().angle << std::endl;
 
-		//update box here 
-		client->receiveBoxMessage();
-		//boxTest->MoveBox(sf::Vector2f(client->getBoxMessage().velocityX, client->getBoxMessage().velocityY));
-		boxTest->setBoxPosition(client->getBoxMessage().position);
+		////update box here 
+		//client->receiveBoxMessage();
+		//boxTest->setBoxPosition(client->getBoxMessage().position);
 
-		//Update score
-		client->receiveScoreMessage();
-		scoreLeft = client->getScoreMessage().scoreLeft;
-		scoreRight = client->getScoreMessage().scoreRight;
-		setScoreLineText();
+		////Update score
+		//client->receiveScoreMessage();
+		//scoreLeft = client->getScoreMessage().scoreLeft;
+		//scoreRight = client->getScoreMessage().scoreRight;
+		//setScoreLineText();
+		
+		networkObject->receivePacket();
+		//serverPlayer->PlayerRotate(networkMessagesContainer.getPlayerMessage().angle);
+		PlayerMessage playerMessage = networkMessagesContainer.getPlayerMessage();
+		sf::Vector2f playerPosition = networkMessagesContainer.getPlayerMessage().position;
+		serverPlayer->setPosition(networkMessagesContainer.getPlayerMessage().position);
+		serverPlayer->PlayerRotate(networkMessagesContainer.getPlayerMessage().angle);
 
-		//scoreLineUpdate();
 	}
+
+
+
 
 	latency++;
 }

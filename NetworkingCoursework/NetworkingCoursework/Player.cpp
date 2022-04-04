@@ -1,8 +1,9 @@
 #include "Player.h"
 
-Player::Player(sf::RenderWindow* window, sf::Vector2f position, string textureName)
+Player::Player(sf::RenderWindow* window, sf::Vector2f position, string textureName, int ID)
 {
 	this->window = window;
+	this->ID = ID;
 
 	if (!playerTexture.loadFromFile(textureName))
 	{
@@ -180,7 +181,7 @@ sf::Packet Player::createPacket()
 {
 	sf::Packet packet;
 
-	packet << static_cast<int>(getType()) << getID() << getVelocity().x << getVelocity().y
+	packet << static_cast<int>(getMessageType()) << getID() << getVelocity().x << getVelocity().y
 		<< getAngle() << timeSent << getPosition().x
 		<< getPosition().y;
 

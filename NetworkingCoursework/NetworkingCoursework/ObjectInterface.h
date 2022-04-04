@@ -4,6 +4,8 @@
 #include <vector>
 #include <iostream>
 
+#include "NetworkMessages.h"
+
 enum class ObjectType
 {
 	Invalid = -1,
@@ -21,10 +23,16 @@ public:
 	virtual void Move(sf::Vector2f velocity) = 0;
 	
 	virtual sf::Packet createPacket() = 0;
-	virtual ObjectType getType() = 0;
+	virtual ObjectType getObjectType() = 0;
+	virtual MessageType getMessageType() = 0;
 
 	virtual int getID() = 0;
 	virtual void setID(int ID) = 0;
+
+	virtual sf::Vector2f getVelocity() = 0;
+	virtual sf::Vector2f getPosition() = 0;
+	virtual float getTimeSent() = 0;
+	virtual int getAngle() = 0;
 
 
 };

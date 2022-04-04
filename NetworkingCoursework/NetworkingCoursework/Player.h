@@ -10,7 +10,7 @@ using namespace std;
 class Player : public ObjectInterface
 {
 public:
-	Player(sf::RenderWindow* window, sf::Vector2f position, string textureName);
+	Player(sf::RenderWindow* window, sf::Vector2f position, string textureName, int ID);
 	~Player();
 
 
@@ -20,14 +20,19 @@ public:
 	void Move(sf::Vector2f velocity) override { playerSprite.move(velocity); }
 
 	///Sending Messages//
-	sf::Packet createPacket();
-	ObjectType getType() { return ObjectType::Player; }
+	sf::Packet createPacket() override;
+	ObjectType getObjectType() override { return ObjectType::Player; } 
+	MessageType getMessageType() override { return MessageType::Player; } 
 
-	int getID() { return ID; }
-	void setID(int ID) { this->ID = ID; }
+	int getID() override { return ID; }
+	void setID(int ID) override { this->ID = ID; }
 
-	float getTimeSent() { return timeSent; }
 	void setTimeSent(float timeSent) { this->timeSent = timeSent; }
+
+	sf::Vector2f getVelocity() override { return velocity; }
+	sf::Vector2f getPosition() override { return playerSprite.getPosition(); }
+	float getTimeSent() override { return timeSent; }
+	int getAngle() override { return angle; }
 
 
 	void HandleInput(float dt);
@@ -36,12 +41,11 @@ public:
 	void PlayerRotate(int angle) { playerSprite.setRotation(angle); }
 
 
-	int getAngle() { return angle; }
-	sf::Vector2f getVelocity() { return velocity; };
+
 	void setVelocity(sf::Vector2f velocity) { this->velocity = velocity; }
 	sf::Sprite getSprite() { return playerSprite; };
-	sf::Vector2f getPosition() { return playerSprite.getPosition();};
-	void setPosition(sf::Vector2f position) { playerSprite.setPosition(position); }
+	void setPosition(sf::Vector2f position) { 
+		playerSprite.setPosition(position); }
 	sf::Vector2f getNewBoxPositionAddOn() { return newBoxPositionAddOn; };
 	void setNewBoxPositionAddOn(sf::Vector2f newBoxPositionAddOn) { this->newBoxPositionAddOn = newBoxPositionAddOn; }
 	
@@ -65,9 +69,9 @@ private:
 
 	int angle = 0;
 
-	int ID;
+	int ID = 0;
 
-	float timeSent;
+	float timeSent = 0;
 };
 
 

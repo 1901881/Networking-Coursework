@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "BoxManager.h"
 #include "NetworkMessages.h"
+#include "NetworkInterface.h"
 
 #include <iostream>
 #include <string>
@@ -41,13 +42,16 @@ private:
 	sf::RenderWindow* window;
 
 	// Simulation elements
+	NetworkInterface* networkObject;
 	ServerPlayer* server;
 	ClientPlayer* client;
 	Player* serverPlayer;
-	BoxManager* boxManager[5];
+	//BoxManager* boxManager[5];
 
 	sf::RectangleShape scoreLine;
 	//std::vector<BoxManager*> boxes;
+
+
 	BoxManager* boxTest;
 
 	sf::Font font;

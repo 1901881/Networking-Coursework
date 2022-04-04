@@ -2,15 +2,17 @@
 
 ServerPlayer::ServerPlayer(unsigned short port)
 {
-	runTcpServer(port);
+	runNetwork(port);
 }
 
 ServerPlayer::~ServerPlayer()
 {
 }
 
-void ServerPlayer::runTcpServer(unsigned short port)
+void ServerPlayer::runNetwork(unsigned short port)
 {
+	//socket.setBlocking(false);
+
 	if (!clientConnected)
 	{
 		// Listen to the given port for incoming connections
@@ -40,71 +42,105 @@ void ServerPlayer::runTcpServer(unsigned short port)
 	//std::cout << "Answer received from the client: \"" << in << "\"" << std::endl;
 }
 
-/*
-create player message
-
-send player message
-
-*/
-
-void ServerPlayer::createPlayerMessage(PlayerMessage playerMessage)
+void ServerPlayer::receivePacket()
 {
-	PlayerMessage serverPlayerMessage;
-	serverPlayerMessage.id = playerMessage.id;
-	serverPlayerMessage.velocityX = playerMessage.velocityX;
-	serverPlayerMessage.velocityY = playerMessage.velocityY;
-	serverPlayerMessage.angle = playerMessage.angle;
-	serverPlayerMessage.position = playerMessage.position;
-	serverPlayerMessage.timeSent = playerMessage.timeSent;
-	sendPlayerMessage(serverPlayerMessage);
+	extern NetworkMessages networkMessagesContainer;
+
+	BaseMessage baseMessage;
+
+	sf::Packet packet;
+	socket.receive(packet);
+
+
+	if (packet >> baseMessage.encodedMessageType)
+	{
+		MessageType messageType = networkMessagesContainer.decodeMessageType(baseMessage.encodedMessageType);
+
+		switch (messageType)
+		{
+		case MessageType::Player:
+			receivePlayerPacket(packet);
+			break;
+		case MessageType::Box:
+			receiveBoxPacket(packet);
+			break;
+		case MessageType::Score:
+			receiveScorePacket(packet);
+			break;
+		case MessageType::Invalid:
+			std::cout << "Received Message Invalid" << std::endl;
+			// std::cout << baseMessage.encodedMessageType << std::endl;
+			 //std::cout << messageType << std::endl;
+			break;
+		}
+	}
 }
 
-void ServerPlayer::sendPlayerMessage(PlayerMessage serverPlayerMessage)
+void ServerPlayer::sendMessage(ObjectInterface* object)
 {
-	Packet packet;
-	packet << serverPlayerMessage.id << serverPlayerMessage.velocityX << serverPlayerMessage.velocityY << serverPlayerMessage.angle << serverPlayerMessage.timeSent << serverPlayerMessage.position.x << serverPlayerMessage.position.y;
+	//sf::TcpSocket newSocket = socket;
+	sf::Packet packet;
+
+	
+	switch (object->getObjectType()) 
+	{
+	case ObjectType::Player:
+		// fill packet with data
+		packet << static_cast<int>(object->getMessageType()) << object->getID() << object->getVelocity().x << object->getVelocity().y
+			<< object->getAngle() << object->getTimeSent() << object->getPosition().x
+			<< object->getPosition().y;
+		break;
+	case ObjectType::Box:
+		// code block
+		break;
+	default:
+		//cout broke
+		break;
+	}
+
+	//sf::Packet packet = object->createPacket();
 	socket.send(packet);
 }
 
-void ServerPlayer::createBoxMessage(BoxMessage boxMessage)
+void ServerPlayer::receivePlayerPacket(sf::Packet packet)
 {
-	//BoxMessage newBoxMessage;
-	//newBoxMessage.id = boxMessage.id;
-	//newBoxMessage.velocityX = bvelocity.x;
-	//newBoxMessage.velocityY = velocity.y;
-	sendBoxMessage(boxMessage);
+	extern NetworkMessages networkMessagesContainer;
+	PlayerMessage playerMessage;
+	if (packet >> playerMessage.id >> playerMessage.velocityX >> playerMessage.velocityY >> playerMessage.angle >> playerMessage.timeSent >> playerMessage.position.x >> playerMessage.position.y)
+	{
+		//update server player infor on client side
+		//std::cout << "player velocity x " << playerMessage.velocityX << std::endl;
+	   // serverPlayerVelocity = sf::Vector2f(playerMessage.velocityX, playerMessage.velocityY);
+		//std::cout << "Client cpp: " << playerMessage.angle << std::endl;
+		//NetworkContainer::playerMessage = playerMessage;
+		networkMessagesContainer.setPlayerMessage(playerMessage);
+	}
 }
 
-void ServerPlayer::sendBoxMessage(BoxMessage boxMessage)
+void ServerPlayer::receiveBoxPacket(sf::Packet packet)
 {
-	Packet packet;
-	packet << boxMessage.id << boxMessage.velocityX << boxMessage.velocityY << boxMessage.position.x << boxMessage.position.y;
-	socket.send(packet);
+	extern NetworkMessages networkMessagesContainer;
+	BoxMessage boxMessage;
+
+	if (packet >> boxMessage.id >> boxMessage.velocityX >> boxMessage.velocityY >> boxMessage.position.x >> boxMessage.position.y)
+	{
+		//update server player infor on client side
+		//std::cout << "player velocity x " << playerMessage.velocityX << std::endl;
+		//serverPlayerVelocity = sf::Vector2f(playerMessage.velocityX, playerMessage.velocityY);
+		//std::cout << "Client cpp: " << playerMessage.angle << std::endl;
+		//NetworkContainer::boxMessage = boxMessage;
+		networkMessagesContainer.setBoxMessage(boxMessage);
+	}
 }
 
-void ServerPlayer::createScoreMessage(int scoreLeft, int scoreRight)
+void ServerPlayer::receiveScorePacket(sf::Packet packet)
 {
+	extern NetworkMessages networkMessagesContainer;
 	ScoreMessage scoreMessage;
-	scoreMessage.scoreLeft = scoreLeft;
-	scoreMessage.scoreRight = scoreRight;
-	sendScoreMessage(scoreMessage);
+
+	if (packet >> scoreMessage.scoreLeft >> scoreMessage.scoreRight)
+	{
+		//NetworkContainer::scoreMessage = scoreMessage;
+		networkMessagesContainer.setScoreMessage(scoreMessage);
+	}
 }
-
-void ServerPlayer::sendScoreMessage(ScoreMessage scoreMessage)
-{
-	Packet packet;
-	packet << scoreMessage.scoreLeft << scoreMessage.scoreRight;
-	socket.send(packet);
-}
-
-void ServerPlayer::sendPacket(sf::TcpSocket socket, ObjectInterface* object)
-{
-	//sendMessage(socket, object);
-}
-
-/*
-need to send player rotation 
-then collision
-see if player on client can go out of bounds and hit the boxes
-
-*/

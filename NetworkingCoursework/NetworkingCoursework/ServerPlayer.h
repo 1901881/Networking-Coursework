@@ -3,27 +3,26 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
 #include "NetworkMessages.h"
+#include "NetworkInterface.h"
 #include <iostream>
 
 using namespace sf;
 
-class ServerPlayer
+class ServerPlayer : public NetworkInterface
 {
 public:
 	ServerPlayer(unsigned short port);
 	~ServerPlayer();
 
-	void runTcpServer(unsigned short port);
-	void createPlayerMessage(PlayerMessage playerMessage);
-	void sendPlayerMessage(PlayerMessage serverPlayerMessage);
+	void runNetwork(unsigned short port) override;
+	void receivePacket() override;
+	void sendMessage(ObjectInterface* object) override;
 
-	void createBoxMessage(BoxMessage boxMessage);
-	void sendBoxMessage(BoxMessage boxMessage);
 
-	void createScoreMessage(int scoreLeft, int scoreRight);
-	void sendScoreMessage(ScoreMessage scoreMessage);
+	void receivePlayerPacket(sf::Packet packet);
+	void receiveBoxPacket(sf::Packet packet);
+	void receiveScorePacket(sf::Packet packet);
 
-	void sendPacket(sf::TcpSocket socket, ObjectInterface* object);
 
 private:
 
@@ -32,6 +31,8 @@ private:
 	sf::TcpListener listener;
 
 	sf::TcpSocket socket;
+
+
 
 	bool clientConnected = false;
 };

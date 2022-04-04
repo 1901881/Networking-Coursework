@@ -5,27 +5,30 @@
 #include <iostream>
 
 #include "NetworkMessages.h"
+#include "NetworkInterface.h"
 
 using namespace sf;
 
-class ClientPlayer
+class ClientPlayer : public NetworkInterface
 {
 public:
 	ClientPlayer(unsigned short port);
 	~ClientPlayer();
-	void runTcpClient(unsigned short port);
-	void receivePlayerMessage();
-	void receiveBoxMessage();
-	void receiveScoreMessage();
+	void runNetwork(unsigned short port) override;
+
+	void sendMessage(ObjectInterface* object) override;
+	void receivePacket() override;
+
+
+	void receivePlayerPacket(sf::Packet packet);
+	void receiveBoxPacket(sf::Packet packet);
+	void receiveScorePacket(sf::Packet packet);
+
 
 	void addServerPlayerMessage(PlayerMessage& msg);
-
 	sf::Vector2f runPrediction(float dt);
 
-	sf::Vector2f getServerPlayerVelocity() { return serverPlayerVelocity; }
-	PlayerMessage getServerPlayerMessage() { return serverPlayerMessage; }
-	BoxMessage getBoxMessage() { return boxMessage; }
-	ScoreMessage getScoreMessage() { return scoreMessage; }
+
 	
 
 private:
@@ -36,12 +39,13 @@ private:
 	sf::TcpSocket socket;
 
 
-	std::vector<PlayerMessage> serverPlayerMessageVector;
-	PlayerMessage serverPlayerMessage;
-	BoxMessage boxMessage;
-	ScoreMessage scoreMessage;
+	//std::vector<PlayerMessage> serverPlayerMessageVector;
+	//PlayerMessage serverPlayerMessage;
+	//BoxMessage boxMessage;
+	//ScoreMessage scoreMessage;
 
 	Vector2f serverPlayerVelocity;
 	float serverPlayerAngle;
+
 };
 

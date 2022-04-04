@@ -29,3 +29,13 @@ void BoxManager::Render()
 {
 	window->draw(boxSprite);
 }
+
+sf::Packet BoxManager::createPacket()
+{
+	sf::Packet packet;
+
+	packet << static_cast<int>(getMessageType()) << getID() << getVelocity().x << getVelocity().y
+		<< getBoxPosition().x << getBoxPosition().y;
+
+	return packet;
+}

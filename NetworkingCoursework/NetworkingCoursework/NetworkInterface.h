@@ -1,19 +1,22 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
+#include "ObjectInterface.h"
+
 
 class NetworkInterface
 {
+public:
 	//virtual void ////function name////////// = 0;
 
-	virtual void runNetwork() = 0;
+	virtual void runNetwork(unsigned short port) = 0;
 
-	virtual void receivePacket(sf::TcpSocket socket) = 0; 
+	virtual void receivePacket() = 0; 
 	//virtual void receivePlayerPacket(sf::Packet packet) = 0;
 	//virtual void receiveBoxPacket(sf::Packet packet) = 0; 
 	//virtual void receiveScorePacket(sf::Packet packet) = 0;
 
-	virtual void sendMessage(sf::TcpSocket socket, sf::Packet packet) = 0;
+	virtual void sendMessage(ObjectInterface* object) = 0;
 };
 
 /*
