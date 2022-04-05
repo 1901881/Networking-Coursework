@@ -26,7 +26,7 @@ ClientPlayer::~ClientPlayer()
 void ClientPlayer::runNetwork(unsigned short port)
 {
     // Ask for the server address
-    //socket.setBlocking(false);
+    socket.setBlocking(false);
 
     do
     {
@@ -100,7 +100,7 @@ void ClientPlayer::receivePlayerPacket(sf::Packet packet)
 {
     extern NetworkMessages networkMessagesContainer;
     PlayerMessage playerMessage;
-    if (packet >> playerMessage.id >> playerMessage.velocityX >> playerMessage.velocityY >> playerMessage.angle >> playerMessage.timeSent >> playerMessage.position.x >> playerMessage.position.y)
+    if (packet >> playerMessage.id >> playerMessage.velocityX >> playerMessage.velocityY >> playerMessage.angle >> playerMessage.timeSent >> playerMessage.position.x >> playerMessage.position.y >> playerMessage.newBoxPositionAddOn.x >> playerMessage.newBoxPositionAddOn.y)
     {
         //update server player infor on client side
         //std::cout << "player velocity x " << playerMessage.velocityX << std::endl;

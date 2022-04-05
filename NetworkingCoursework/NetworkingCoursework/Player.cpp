@@ -51,8 +51,10 @@ void Player::HandleInput(float dt)
 {
 	velocity = sf::Vector2f(0.0f, 0.0f);
 
+	if(serverBool)
+	{ 
 	// Move player left
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		// Ensure the line doesn't exceed the left bound
 		if (playerSprite.getPosition().x > 10.0f + playerTexture.getSize().x / 2)
@@ -64,7 +66,7 @@ void Player::HandleInput(float dt)
 	}
 
 	// Move player right
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		// Ensure the line doesn't exceed the right bound
 		if (playerSprite.getPosition().x < window->getSize().x - playerTexture.getSize().x / 2)
@@ -77,7 +79,7 @@ void Player::HandleInput(float dt)
 	}
 
 	// Move player up
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
 		// Ensure the line doesn't exceed the right bound
 		if (playerSprite.getPosition().y > 0 + playerTexture.getSize().y / 2)
@@ -90,7 +92,7 @@ void Player::HandleInput(float dt)
 	}
 
 	// Move player down
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
 		// Ensure the line doesn't exceed the right bound
 		if (playerSprite.getPosition().y < window->getSize().y - playerTexture.getSize().y / 2)
@@ -100,6 +102,63 @@ void Player::HandleInput(float dt)
 			//playerSprite.setRotation(90);
 			angle = 90;
 		}
+	}
+
+	}
+
+	if (clientBool)
+	{
+		// Move player left
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		{
+			// Ensure the line doesn't exceed the left bound
+			if (playerSprite.getPosition().x > 10.0f + playerTexture.getSize().x / 2)
+			{
+				velocity.x = -movementSpeed * dt;
+				//playerSprite.setRotation(180);
+				angle = 180;
+			}
+		}
+
+		// Move player right
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		{
+			// Ensure the line doesn't exceed the right bound
+			if (playerSprite.getPosition().x < window->getSize().x - playerTexture.getSize().x / 2)
+			{
+				// Move the line 1 unit right
+				velocity.x = movementSpeed * dt;
+				//playerSprite.setRotation(0);
+				angle = 0;
+			}
+		}
+
+		// Move player up
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		{
+			// Ensure the line doesn't exceed the right bound
+			if (playerSprite.getPosition().y > 0 + playerTexture.getSize().y / 2)
+			{
+				// Move the line 1 unit right
+				velocity.y = -movementSpeed * dt;
+				//playerSprite.setRotation(270);
+				angle = 270;
+			}
+		}
+
+		// Move player down
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		{
+			// Ensure the line doesn't exceed the right bound
+			if (playerSprite.getPosition().y < window->getSize().y - playerTexture.getSize().y / 2)
+			{
+				// Move the line 1 unit right
+				velocity.y = movementSpeed * dt;
+				//playerSprite.setRotation(90);
+				angle = 90;
+			}
+		}
+
 	}
 
 
@@ -183,7 +242,7 @@ sf::Packet Player::createPacket()
 
 	packet << static_cast<int>(getMessageType()) << getID() << getVelocity().x << getVelocity().y
 		<< getAngle() << timeSent << getPosition().x
-		<< getPosition().y;
+		<< getPosition().y << getNewBoxPositionAddOn().x << getNewBoxPositionAddOn().y;
 
 	return packet;
 }

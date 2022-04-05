@@ -26,6 +26,7 @@ struct PlayerMessage : public BaseMessage
 	int timeSent;
 
 	sf::Vector2f position;
+	sf::Vector2f newBoxPositionAddOn;
 
 	//id = 1 = Server
 	//id = 2 = Client

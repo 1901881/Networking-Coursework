@@ -7,6 +7,8 @@
 #include "NetworkMessages.h"
 #include "NetworkInterface.h"
 
+#include <vector>
+
 using namespace sf;
 
 class ClientPlayer : public NetworkInterface

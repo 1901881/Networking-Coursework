@@ -5,6 +5,7 @@
 #include "NetworkMessages.h"
 #include "NetworkInterface.h"
 #include <iostream>
+#include <vector>
 
 using namespace sf;
 

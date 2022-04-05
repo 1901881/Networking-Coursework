@@ -44,11 +44,12 @@ public:
 
 	void setVelocity(sf::Vector2f velocity) { this->velocity = velocity; }
 	sf::Sprite getSprite() { return playerSprite; };
-	void setPosition(sf::Vector2f position) { 
-		playerSprite.setPosition(position); }
+	void setPosition(sf::Vector2f position) { playerSprite.setPosition(position); }
 	sf::Vector2f getNewBoxPositionAddOn() { return newBoxPositionAddOn; };
 	void setNewBoxPositionAddOn(sf::Vector2f newBoxPositionAddOn) { this->newBoxPositionAddOn = newBoxPositionAddOn; }
 	
+	void setServerBool(bool serverBool) { this->serverBool = serverBool; }
+	void setClientBool(bool clientBool) { this->clientBool = clientBool; }
 
 private:
 
@@ -61,7 +62,7 @@ private:
 	sf::Vector2f newBoxPositionAddOn = sf::Vector2f(0.0f, 0.0f);
 	float boxSpeed = 1.0f;
 
-	sf::FloatRect playerBounds;
+	sf::FloatRect playerBounds;//might need to send these over to server.
 	sf::FloatRect boxBounds;
 	sf::FloatRect nextPos;
 
@@ -72,6 +73,10 @@ private:
 	int ID = 0;
 
 	float timeSent = 0;
+
+	bool serverBool = false;
+	bool clientBool = false;
+
 };
 
 

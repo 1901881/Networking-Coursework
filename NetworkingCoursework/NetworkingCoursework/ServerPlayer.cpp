@@ -3,10 +3,7 @@
 ServerPlayer::ServerPlayer(unsigned short port)
 {
 	runNetwork(port);
-}
 
-ServerPlayer::~ServerPlayer()
-{
 	//maybe change this to nand
 	for (int x = 0; x < 3; x++)
 	{
@@ -19,6 +16,11 @@ ServerPlayer::~ServerPlayer()
 		p.position.y = -2000;
 		clientPlayerMessageVector.push_back(p);
 	}
+}
+
+ServerPlayer::~ServerPlayer()
+{
+
 }
 
 void ServerPlayer::runNetwork(unsigned short port)
@@ -44,7 +46,7 @@ void ServerPlayer::runNetwork(unsigned short port)
 	//const char out[] = "Hi, I'm the server";
 	//if (socket.send(out, sizeof(out)) != sf::Socket::Done)
 	//	return;
-	//std::cout << "Message sent to the client: \"" << out << "\"" << std::endl;
+	//std::cout << "Message sent to the client: \""  << out << "\"" << std::endl;
 
 	//// Receive a message back from the client
 	//char in[128];
@@ -121,7 +123,7 @@ void ServerPlayer::receivePlayerPacket(sf::Packet packet)
 {
 	extern NetworkMessages networkMessagesContainer;
 	PlayerMessage playerMessage;
-	if (packet >> playerMessage.id >> playerMessage.velocityX >> playerMessage.velocityY >> playerMessage.angle >> playerMessage.timeSent >> playerMessage.position.x >> playerMessage.position.y)
+	if (packet >> playerMessage.id >> playerMessage.velocityX >> playerMessage.velocityY >> playerMessage.angle >> playerMessage.timeSent >> playerMessage.position.x >> playerMessage.position.y >> playerMessage.newBoxPositionAddOn.x >> playerMessage.newBoxPositionAddOn.y)
 	{
 		//update server player infor on client side
 		//std::cout << "player velocity x " << playerMessage.velocityX << std::endl;

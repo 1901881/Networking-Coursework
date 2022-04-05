@@ -28,10 +28,6 @@ public:
 	// Functions
 	void update(float dt);
 	void render(float dt);
-	void initScoreLine();
-	void initText();
-	void scoreLineUpdate();
-	void setScoreLineText();
 	void playerCollisionUpdate(Player* player, BoxManager* box);
 	void boxCollisionUpdate(Player* player, BoxManager* box);
 
