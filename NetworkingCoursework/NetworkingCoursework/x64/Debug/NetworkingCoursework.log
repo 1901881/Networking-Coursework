@@ -1,3 +1,4 @@
-﻿  Game.cpp
-C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Player.h(41,58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+﻿  ServerPlayer.cpp
+C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\ServerPlayer.cpp(177,52): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\ServerPlayer.cpp(177,52): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
   NetworkingCoursework.vcxproj -> C:\Users\jrope\OneDrive - Abertay University\Documents\Uni Year 3\CMP303 - Networking\Networking-Coursework\NetworkingCoursework\x64\Debug\NetworkingCoursework.exe
