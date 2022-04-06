@@ -1,5 +1,6 @@
 #include "ScoreLine.h"
 
+//Loads font and initialises text variables, also creates score line
 ScoreLine::ScoreLine(sf::RenderWindow* hwnd)
 {
 	window = hwnd;
@@ -17,7 +18,6 @@ ScoreLine::ScoreLine(sf::RenderWindow* hwnd)
 	titleText.setString("Box Pusher");
 	titleText.setFillColor(sf::Color::White);
 	titleText.setCharacterSize(25);
-
 
 	std::string scoreStringLeft = std::to_string(scoreLeft);
 	scoreTextLeft.setFont(font);
@@ -48,12 +48,9 @@ void ScoreLine::setScoreLineText(int scoreRight, int scoreLeft)
 	scoreTextLeft.setString(scoreStringLeft);
 }
 
+//Calculates score based off boxes position
 void ScoreLine::Update(float dt)
 {
-	//NetworkMessages networkMessagesContainer;
-
-	//if (boxTest->getSprite().getPosition().x > scoreLine.getOrigin().x)
-	//if (networkMessagesContainer.getBoxMessage().position.x > scoreLine.getOrigin().x)
 	if (boxPosition.x > scoreLine.getOrigin().x)
 	{
 		scoreLeft = 0;
@@ -76,6 +73,7 @@ void ScoreLine::Render()
 	window->draw(scoreLine);
 }
 
+//Fills packet with the score data and message type
 sf::Packet ScoreLine::createPacket()
 {
 	sf::Packet packet;

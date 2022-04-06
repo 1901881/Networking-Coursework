@@ -10,7 +10,7 @@
 #include <vector>
 
 using namespace sf;
-
+//Inherits virtual class
 class ClientPlayer : public NetworkInterface
 {
 public:
@@ -21,14 +21,14 @@ public:
 	void sendMessage(ObjectInterface* object) override;
 	void receivePacket() override;
 
-
+	//Receiving functions based from message type//
 	void receivePlayerPacket(sf::Packet packet);
 	void receiveBoxPacket(sf::Packet packet);
 	void receiveScorePacket(sf::Packet packet);
 
-
-	void addServerPlayerMessage(PlayerMessage& msg);
-	sf::Vector2f runPrediction(float dt) override;
+	//Prediction Functions//
+	void addServerPlayerMessage(PlayerMessage& msg);//Updates the message vector with new message for prediction
+	sf::Vector2f runPrediction(float dt) override;//return floats to update position
 
 
 	
@@ -37,14 +37,10 @@ private:
 
 	sf::IpAddress server;
 
-	// Create a socket for communicating with the server
+	//socket for communicating with the server
 	sf::TcpSocket socket;
 
-
 	std::vector<PlayerMessage> serverPlayerMessageVector;
-	//PlayerMessage serverPlayerMessage;
-	//BoxMessage boxMessage;
-	//ScoreMessage scoreMessage;
 
 	Vector2f serverPlayerVelocity;
 	float serverPlayerAngle;

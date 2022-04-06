@@ -40,24 +40,11 @@ void ClientPlayer::runNetwork(unsigned short port)
         return;
     std::cout << "Connected to server " << server << std::endl;
 
-    //// Receive a message from the server
-    //char in[128];
-    //std::size_t received;
-    //if (socket.receive(in, sizeof(in), received) != sf::Socket::Done)
-    //    return;
-    //std::cout << "Message received from the server: \"" << in << "\"" << std::endl;
-
-    //// Send an answer to the server
-    //const char out[] = "Hi, I'm a client";
-    //if (socket.send(out, sizeof(out)) != sf::Socket::Done)
-    //    return;
-    //std::cout << "Message sent to the server: \"" << out << "\"" << std::endl;
 }
 
 
 void ClientPlayer::sendMessage(ObjectInterface* object)
 {
-    //sf::TcpSocket newSocket = socket;
     sf::Packet packet = object->createPacket();
     socket.send(packet);
 }
@@ -88,8 +75,6 @@ void ClientPlayer::receivePacket()
             break;
         case MessageType::Invalid:
             std::cout << "Received Message Invalid" << std::endl;
-           // std::cout << baseMessage.encodedMessageType << std::endl;
-            //std::cout << messageType << std::endl;
             break;
         }
 
@@ -102,11 +87,6 @@ void ClientPlayer::receivePlayerPacket(sf::Packet packet)
     PlayerMessage playerMessage;
     if (packet >> playerMessage.id >> playerMessage.velocityX >> playerMessage.velocityY >> playerMessage.angle >> playerMessage.timeSent >> playerMessage.position.x >> playerMessage.position.y >> playerMessage.newBoxPositionAddOn.x >> playerMessage.newBoxPositionAddOn.y)
     {
-        //update server player infor on client side
-        //std::cout << "player velocity x " << playerMessage.velocityX << std::endl;
-       // ClientPlayerVelocity = sf::Vector2f(playerMessage.velocityX, playerMessage.velocityY);
-        //std::cout << "Client cpp: " << playerMessage.angle << std::endl;
-        //NetworkContainer::playerMessage = playerMessage;
         sf::Vector2f playerPosition = playerMessage.position;
         networkMessagesContainer.setPlayerMessage(playerMessage);
         serverPlayerMessageVector.push_back(playerMessage);
@@ -120,11 +100,6 @@ void ClientPlayer::receiveBoxPacket(sf::Packet packet)
 
     if (packet >> boxMessage.id >> boxMessage.velocityX >> boxMessage.velocityY >> boxMessage.position.x >> boxMessage.position.y)
     {
-        //update server player infor on client side
-        //std::cout << "player velocity x " << playerMessage.velocityX << std::endl;
-        //ClientPlayerVelocity = sf::Vector2f(playerMessage.velocityX, playerMessage.velocityY);
-        //std::cout << "Client cpp: " << playerMessage.angle << std::endl;
-        //NetworkContainer::boxMessage = boxMessage;
         networkMessagesContainer.setBoxMessage(boxMessage);
     }
 }
@@ -136,7 +111,6 @@ void ClientPlayer::receiveScorePacket(sf::Packet packet)
 
     if (packet >> scoreMessage.scoreLeft >> scoreMessage.scoreRight)
     {
-        //NetworkContainer::scoreMessage = scoreMessage;
         networkMessagesContainer.setScoreMessage(scoreMessage);
     }
 }
@@ -146,12 +120,10 @@ sf::Vector2f ClientPlayer::runPrediction(float dt)
     extern NetworkMessages networkMessagesContainer;
     const int msize = serverPlayerMessageVector.size();
 
-    //waits until the vector is filled with the client sides data before running prediction
+    //waits until the vector is filled with the server sides data before running prediction
     if (serverPlayerMessageVector[2].position.x == -2000)
     {
-        //return sf::Vector2f(serverPlayerMessage.position.x, serverPlayerMessage.position.y);
         return sf::Vector2f(networkMessagesContainer.getPlayerMessage().position);
-       // return sf::Vector2f(500, 500);
     }
     int msg0Size = msize - 1;
     int msg1Size = msize - 2;
@@ -170,27 +142,6 @@ sf::Vector2f ClientPlayer::runPrediction(float dt)
     float nextPositionX = msg0.position.x + displacement;
     float nextPositionY = msg0.position.y + displacement;
     return sf::Vector2f(nextPositionX, nextPositionY);
-    //return sf::Vector2f(1, 1);
-
-    ////add latency
-
-    ///*
-    //need to get liner prediction calculation
-
-    //need delta time and time sent
-
-    //save velocity when sent
-
-    //ignore null references
-
-    //set as predictid velocity
-    //then use that in game to move player.
-
-    //////////////////////////////////////////
-
-    //need to run it off position
-    //*/
-
 }
 
 void ClientPlayer::addServerPlayerMessage(PlayerMessage& msg)

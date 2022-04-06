@@ -1,5 +1,6 @@
 #include "BoxManager.h"
 
+//loads box texture, initialises box sprite
 BoxManager::BoxManager(sf::RenderWindow* hwnd, sf::Vector2f position)
 {
 	window = hwnd;
@@ -21,7 +22,6 @@ BoxManager::~BoxManager()
 
 void BoxManager::Update(float dt)
 {
-	//boxSprite.move(velocity);
 }
 
 
@@ -30,6 +30,7 @@ void BoxManager::Render()
 	window->draw(boxSprite);
 }
 
+//Fills packet with the box data and message type
 sf::Packet BoxManager::createPacket()
 {
 	sf::Packet packet;

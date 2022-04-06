@@ -13,10 +13,6 @@
 #include <string>
 #include <chrono>
 
-using std::chrono::duration_cast;
-using std::chrono::seconds;
-typedef std::chrono::steady_clock timingsClock;
-
 using namespace sf;
 
 class Game
@@ -28,47 +24,34 @@ public:
 	// Functions
 	void update(float dt);
 	void render(float dt);
+
+	//Used to update the collision variables for the box and players
 	void playerCollisionUpdate(Player* player, BoxManager* box);
 	void boxCollisionUpdate(Player* player, BoxManager* box);
 
 
 private:
-	int boxAmount = 5;
-
 	// Background setup
 	sf::RenderWindow* window;
 
 	// Simulation elements
 	NetworkInterface* networkObject;
-	//ServerPlayer* server;
-	//ClientPlayer* client;
 	Player* serverPlayer;
 	Player* clientPlayer;
 	ScoreLine* scoreLine;
-	//BoxManager* boxManager[5];
-
-	//sf::RectangleShape scoreLine;
-	//std::vector<BoxManager*> boxes;
-
-
 	BoxManager* boxTest;
-
-	sf::Font font;
-	sf::Text titleText;
-	sf::Text scoreTextLeft;
-	sf::Text scoreTextRight;
-
-	int scoreLeft = 0;
-	int scoreRight = 0;
 
 	// Choose an arbitrary port for opening sockets
 	const unsigned short port = 50001;
+
+	//Used at the start of the program 
+	//for the user to choose whether they want to be a client or server
 	bool serverBool = false;
 	bool clientBool = false;
 
-	int latency;
+	int latency;//used for limiting messages sent
 
-	float gameTime = 0;
+	float gameTime = 0;//used to calculate prediction
 
 	// Draw functions
 	void beginDraw();

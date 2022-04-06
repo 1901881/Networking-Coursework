@@ -6,6 +6,7 @@
 
 #include "NetworkMessages.h"
 
+//Used when defining which object message to send
 enum class ObjectType
 {
 	Invalid = -1,
@@ -14,6 +15,8 @@ enum class ObjectType
 	Score
 };
 
+//This is a virtual class that will be inherited by the game object classes; player, box, scoreline
+//All the functions will be changed by each object class to fit the use case
 class ObjectInterface
 {
 

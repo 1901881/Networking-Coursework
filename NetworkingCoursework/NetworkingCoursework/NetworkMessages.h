@@ -3,6 +3,8 @@
 #include <SFML/Network.hpp>
 #include <iostream>
 
+//Contains the message struct used for the networking
+
 enum class MessageType : int
 {
 	Invalid = -1,
@@ -14,22 +16,18 @@ enum class MessageType : int
 struct BaseMessage
 {
 	int encodedMessageType;
-	int timeSent;
+	int timeSent;//Time of the message sent, used for working out prediction
 };
 
 struct PlayerMessage : public BaseMessage
 {
 	int id; //Object number of the player within the game world
 	float velocityX, velocityY; //Position of the player within the game world
-	//float time; //Time of the message sent, used for working out prediction
 	int angle;
 	int timeSent;
 
 	sf::Vector2f position;
-	sf::Vector2f newBoxPositionAddOn;
-
-	//id = 1 = Server
-	//id = 2 = Client
+	sf::Vector2f newBoxPositionAddOn;//Used for the box movement
 };
 
 struct BoxMessage : public BaseMessage
@@ -46,13 +44,18 @@ struct ScoreMessage : public BaseMessage
 	int scoreRight;
 };
 
-
 class NetworkMessages
 {
 public:
 
+	//Message type has to be encoded into an int for it to be sent across the network, 
+	//this function is used when receiving the message to check the type of the message
+	//so that the correct message receive function can be called
 	MessageType decodeMessageType(int encodedMessageType) { return static_cast<MessageType>(encodedMessageType); }
 	
+	//Message setter and getters//
+	//setters are used to update the object message with the new information after receiving a packet
+	//getters are used to retrive the new information and set it within the empty game objects
 	void setPlayerMessage(PlayerMessage playerMessage) { 
 		this->playerMessage = playerMessage; }
 	PlayerMessage getPlayerMessage() { return playerMessage; }
@@ -69,24 +72,3 @@ private:
 	BoxMessage boxMessage;
 	ScoreMessage scoreMessage;
 };
-
-
-
-
-
-
-
-/*
-1
-1
-not
-2
-2
-kermit
-your mum
-zara 
-merry berry with a hat
-your sister
-
-
-*/

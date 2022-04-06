@@ -1,5 +1,6 @@
 #include "Player.h"
 
+//loads player texture based on constructor parameter, initialises player sprite
 Player::Player(sf::RenderWindow* window, sf::Vector2f position, string textureName, int ID)
 {
 	this->window = window;
@@ -7,9 +8,6 @@ Player::Player(sf::RenderWindow* window, sf::Vector2f position, string textureNa
 
 	if (!playerTexture.loadFromFile(textureName))
 	{
-		// error...
-		//"media/BoxPusher.png"
-
 		cout << "Cannot load texture" << endl;
 	}
 	playerTexture.setSmooth(true);
@@ -18,10 +16,6 @@ Player::Player(sf::RenderWindow* window, sf::Vector2f position, string textureNa
 	playerSprite.setOrigin(sf::Vector2f(playerTexture.getSize().x / 2.0f, playerTexture.getSize().y / 2.0f));
 	playerSprite.setPosition(position);
 
-
-	/*
-	
-	*/
 }
 
 Player::~Player()
@@ -32,14 +26,6 @@ void Player::Update(float dt)
 {
 	HandleInput(dt);
 	CheckCollision(dt);
-	//playerSprite.move(velocity);
-
-	/*
-	changes:
-	velocity
-	rotation
-	newBoxPositionAddon
-	*/
 }
 
 void Player::Render()
@@ -60,7 +46,6 @@ void Player::HandleInput(float dt)
 		if (playerSprite.getPosition().x > 10.0f + playerTexture.getSize().x / 2)
 		{
 			velocity.x = -movementSpeed * dt;
-			//playerSprite.setRotation(180);
 			angle = 180;
 		}
 	}
@@ -71,9 +56,7 @@ void Player::HandleInput(float dt)
 		// Ensure the line doesn't exceed the right bound
 		if (playerSprite.getPosition().x < window->getSize().x - playerTexture.getSize().x / 2)
 		{
-			// Move the line 1 unit right
 			velocity.x = movementSpeed * dt;
-			//playerSprite.setRotation(0);
 			angle = 0;
 		}
 	}
@@ -84,9 +67,7 @@ void Player::HandleInput(float dt)
 		// Ensure the line doesn't exceed the right bound
 		if (playerSprite.getPosition().y > 0 + playerTexture.getSize().y / 2)
 		{
-			// Move the line 1 unit right
 			velocity.y = -movementSpeed * dt;
-			//playerSprite.setRotation(270);
 			angle = 270;
 		}
 	}
@@ -97,9 +78,7 @@ void Player::HandleInput(float dt)
 		// Ensure the line doesn't exceed the right bound
 		if (playerSprite.getPosition().y < window->getSize().y - playerTexture.getSize().y / 2)
 		{
-			// Move the line 1 unit right
 			velocity.y = movementSpeed * dt;
-			//playerSprite.setRotation(90);
 			angle = 90;
 		}
 	}
@@ -115,7 +94,6 @@ void Player::HandleInput(float dt)
 			if (playerSprite.getPosition().x > 10.0f + playerTexture.getSize().x / 2)
 			{
 				velocity.x = -movementSpeed * dt;
-				//playerSprite.setRotation(180);
 				angle = 180;
 			}
 		}
@@ -126,9 +104,7 @@ void Player::HandleInput(float dt)
 			// Ensure the line doesn't exceed the right bound
 			if (playerSprite.getPosition().x < window->getSize().x - playerTexture.getSize().x / 2)
 			{
-				// Move the line 1 unit right
 				velocity.x = movementSpeed * dt;
-				//playerSprite.setRotation(0);
 				angle = 0;
 			}
 		}
@@ -139,9 +115,7 @@ void Player::HandleInput(float dt)
 			// Ensure the line doesn't exceed the right bound
 			if (playerSprite.getPosition().y > 0 + playerTexture.getSize().y / 2)
 			{
-				// Move the line 1 unit right
 				velocity.y = -movementSpeed * dt;
-				//playerSprite.setRotation(270);
 				angle = 270;
 			}
 		}
@@ -152,9 +126,7 @@ void Player::HandleInput(float dt)
 			// Ensure the line doesn't exceed the right bound
 			if (playerSprite.getPosition().y < window->getSize().y - playerTexture.getSize().y / 2)
 			{
-				// Move the line 1 unit right
 				velocity.y = movementSpeed * dt;
-				//playerSprite.setRotation(90);
 				angle = 90;
 			}
 		}
@@ -166,7 +138,8 @@ void Player::HandleInput(float dt)
 
 void Player::CheckCollision(float dt)
 {
-
+	//Checks the player bounds against the box 
+	//and moves the box based on which side is hit
 	if (boxBounds.intersects(nextPos))
 	{
 		//Bottom Collision
@@ -201,7 +174,6 @@ void Player::CheckCollision(float dt)
 		{
 			setVelocity(sf::Vector2f(0.0f, getVelocity().y));
 			newBoxPositionAddOn.x = boxSpeed;
-			//serverPlayerSprite.setPosition(playerBounds.left, boxBounds.top + boxBounds.height);
 			if (playerSprite.getRotation() == 180) {
 				HandleInput(dt);
 			}
@@ -225,7 +197,7 @@ void Player::CheckCollision(float dt)
 void Player::UpdateCollision(sf::FloatRect playerBounds, sf::FloatRect boxBounds)
 {
 	//Collision
-	//get players next position
+	//gets players next position
 	nextPos = playerBounds;
 	nextPos.left += getVelocity().x;
 	nextPos.top += getVelocity().y;
@@ -236,6 +208,7 @@ void Player::UpdateCollision(sf::FloatRect playerBounds, sf::FloatRect boxBounds
 
 }
 
+//Fills packet with the box data and message type
 sf::Packet Player::createPacket()
 {
 	sf::Packet packet;

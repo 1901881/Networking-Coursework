@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 int main()
 {
 	sf::Clock deltaClock;
@@ -15,11 +14,6 @@ int main()
 
 	Game game(&window);
 
-	float movementSpeed = 100;
-
-
-	// Set window colour to black when clearing
-	//window.clear(sf::Color(18, 33, 43)); //Color Background
 
 	while (window.isOpen())
 	{
@@ -27,13 +21,10 @@ int main()
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			//ImGui::SFML::ProcessEvent(event);
 			if (event.type == sf::Event::Closed)
 			{
 				window.close();
 			}
-			//deltaTime = deltaClock.restart().asSeconds();
-
 		
 		
 		
@@ -47,10 +38,6 @@ int main()
 		}
 		//Calculate delta time. How much time has passed
 		//since it was last calculated (in seconds) and restart the clock.
-		
-
-
-	
 		deltaTime = deltaClock.restart().asSeconds();
 
 		game.update(deltaTime);
@@ -58,13 +45,4 @@ int main()
 	}
 	return 0;
 }
-
-
-/*
-To-Do:
-add middle line +
-add player + 
-add boxes
-
-*/
 
