@@ -80,7 +80,11 @@ void ServerPlayer::receivePlayerPacket(sf::Packet packet)
 {
 	extern NetworkMessages networkMessagesContainer;
 	PlayerMessage playerMessage;
-	if (packet >> playerMessage.id >> playerMessage.velocityX >> playerMessage.velocityY >> playerMessage.angle >> playerMessage.timeSent >> playerMessage.position.x >> playerMessage.position.y >> playerMessage.newBoxPositionAddOn.x >> playerMessage.newBoxPositionAddOn.y)
+	if (packet >> playerMessage.id >> playerMessage.velocityX >> playerMessage.velocityY 
+		>> playerMessage.angle >> playerMessage.timeSent >> playerMessage.position.x >> playerMessage.position.y 
+		>> playerMessage.newBoxPositionAddOn.x >> playerMessage.newBoxPositionAddOn.y
+		>> playerMessage.clientPlayerBounds.top >> playerMessage.clientPlayerBounds.left 
+		>> playerMessage.clientPlayerBounds.width >> playerMessage.clientPlayerBounds.height)
 	{
 		networkMessagesContainer.setPlayerMessage(playerMessage);
 		clientPlayerMessageVector.push_back(playerMessage);

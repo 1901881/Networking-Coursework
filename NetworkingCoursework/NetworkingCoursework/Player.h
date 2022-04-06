@@ -33,7 +33,7 @@ public:
 	//Players own functions//
 	void HandleInput(float dt);//Receives keyboard input and moves player
 	void CheckCollision(float dt);//Checks whether player is with game bounds
-	void UpdateCollision(sf::FloatRect playerBounds, sf::FloatRect boxBounds);//Gets players next position for collision with box and level border
+	void UpdateCollision(sf::FloatRect servePlayerBounds, sf::FloatRect clientPlayerBounds, sf::FloatRect boxBounds);//Gets players next position for collision with box and level border
 	void PlayerRotate(int angle) { playerSprite.setRotation(angle); }//Used to rotate the player so that it matches the movement
 
 
@@ -43,7 +43,9 @@ public:
 	void setPosition(sf::Vector2f position) { playerSprite.setPosition(position); }
 	sf::Vector2f getNewBoxPositionAddOn() { return newBoxPositionAddOn; };
 	void setNewBoxPositionAddOn(sf::Vector2f newBoxPositionAddOn) { this->newBoxPositionAddOn = newBoxPositionAddOn; }
-	
+	void setClientPlayerBounds(sf::FloatRect clientPlayerBounds) { this->clientPlayerBounds = clientPlayerBounds; }
+	sf::FloatRect getClientPlayerBounds() { return clientPlayerBounds; }
+
 	//Used for changing player controls between applications
 	void setServerBool(bool serverBool) { this->serverBool = serverBool; }
 	void setClientBool(bool clientBool) { this->clientBool = clientBool; }
@@ -64,7 +66,8 @@ private:
 	//Box Movement//
 	sf::Vector2f newBoxPositionAddOn = sf::Vector2f(0.0f, 0.0f);
 	float boxSpeed = 1.0f;
-	sf::FloatRect playerBounds;
+	sf::FloatRect serverPlayerBounds;
+	sf::FloatRect clientPlayerBounds;
 	sf::FloatRect boxBounds;
 	sf::FloatRect nextPos;
 

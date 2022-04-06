@@ -28,6 +28,7 @@ struct PlayerMessage : public BaseMessage
 
 	sf::Vector2f position;
 	sf::Vector2f newBoxPositionAddOn;//Used for the box movement
+	sf::FloatRect clientPlayerBounds;
 };
 
 struct BoxMessage : public BaseMessage

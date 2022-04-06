@@ -143,10 +143,10 @@ void Player::CheckCollision(float dt)
 	if (boxBounds.intersects(nextPos))
 	{
 		//Bottom Collision
-		if (playerBounds.top < boxBounds.top
-			&& playerBounds.top + playerBounds.height < boxBounds.top + boxBounds.height
-			&& playerBounds.left < boxBounds.left + boxBounds.width
-			&& playerBounds.left + playerBounds.width > boxBounds.left)
+		if (serverPlayerBounds.top < boxBounds.top
+			&& serverPlayerBounds.top + serverPlayerBounds.height < boxBounds.top + boxBounds.height
+			&& serverPlayerBounds.left < boxBounds.left + boxBounds.width
+			&& serverPlayerBounds.left + serverPlayerBounds.width > boxBounds.left)
 		{
 			setVelocity(sf::Vector2f(getVelocity().y, 0.0f));
 			newBoxPositionAddOn.y = boxSpeed;
@@ -155,10 +155,10 @@ void Player::CheckCollision(float dt)
 			}
 		}
 		//Top Collision
-		if (playerBounds.top > boxBounds.top
-			&& playerBounds.top + playerBounds.height > boxBounds.top + boxBounds.height
-			&& playerBounds.left < boxBounds.left + boxBounds.width
-			&& playerBounds.left + playerBounds.width > boxBounds.left)
+		if (serverPlayerBounds.top > boxBounds.top
+			&& serverPlayerBounds.top + serverPlayerBounds.height > boxBounds.top + boxBounds.height
+			&& serverPlayerBounds.left < boxBounds.left + boxBounds.width
+			&& serverPlayerBounds.left + serverPlayerBounds.width > boxBounds.left)
 		{
 			setVelocity(sf::Vector2f(getVelocity().y, 0.0f));
 			newBoxPositionAddOn.y = -boxSpeed;
@@ -167,10 +167,10 @@ void Player::CheckCollision(float dt)
 			}
 		}
 		//Right Collision
-		if (playerBounds.left < boxBounds.left
-			&& playerBounds.left + playerBounds.width < boxBounds.left + boxBounds.width
-			&& playerBounds.top < boxBounds.top + boxBounds.height
-			&& playerBounds.top + playerBounds.height > boxBounds.top)
+		if (serverPlayerBounds.left < boxBounds.left
+			&& serverPlayerBounds.left + serverPlayerBounds.width < boxBounds.left + boxBounds.width
+			&& serverPlayerBounds.top < boxBounds.top + boxBounds.height
+			&& serverPlayerBounds.top + serverPlayerBounds.height > boxBounds.top)
 		{
 			setVelocity(sf::Vector2f(0.0f, getVelocity().y));
 			newBoxPositionAddOn.x = boxSpeed;
@@ -179,10 +179,10 @@ void Player::CheckCollision(float dt)
 			}
 		}
 		//Left Collision
-		if (playerBounds.left > boxBounds.left
-			&& playerBounds.left + playerBounds.width > boxBounds.left + boxBounds.width
-			&& playerBounds.top < boxBounds.top + boxBounds.height
-			&& playerBounds.top + playerBounds.height > boxBounds.top)
+		if (serverPlayerBounds.left > boxBounds.left
+			&& serverPlayerBounds.left + serverPlayerBounds.width > boxBounds.left + boxBounds.width
+			&& serverPlayerBounds.top < boxBounds.top + boxBounds.height
+			&& serverPlayerBounds.top + serverPlayerBounds.height > boxBounds.top)
 		{
 			setVelocity(sf::Vector2f(0.0f, getVelocity().y));
 			newBoxPositionAddOn.x = -boxSpeed;
@@ -192,17 +192,72 @@ void Player::CheckCollision(float dt)
 		}
 
 	}
+
+	//Player Player collision
+	if (clientPlayerBounds.intersects(nextPos))
+	{
+		//Bottom Collision
+		if (serverPlayerBounds.top < clientPlayerBounds.top
+			&& serverPlayerBounds.top + serverPlayerBounds.height < clientPlayerBounds.top + clientPlayerBounds.height
+			&& serverPlayerBounds.left < clientPlayerBounds.left + clientPlayerBounds.width
+			&& serverPlayerBounds.left + serverPlayerBounds.width > clientPlayerBounds.left)
+		{
+			setVelocity(sf::Vector2f(getVelocity().y, 0.0f));
+			//newBoxPositionAddOn.y = boxSpeed;
+			if (playerSprite.getRotation() == 270) {
+				HandleInput(dt);
+			}
+		}
+		//Top Collision
+		if (serverPlayerBounds.top > clientPlayerBounds.top
+			&& serverPlayerBounds.top + serverPlayerBounds.height > clientPlayerBounds.top + clientPlayerBounds.height
+			&& serverPlayerBounds.left < clientPlayerBounds.left + clientPlayerBounds.width
+			&& serverPlayerBounds.left + serverPlayerBounds.width > clientPlayerBounds.left)
+		{
+			setVelocity(sf::Vector2f(getVelocity().y, 0.0f));
+			//newBoxPositionAddOn.y = -boxSpeed;
+			if (playerSprite.getRotation() == 90) {
+				HandleInput(dt);
+			}
+		}
+		//Right Collision
+		if (serverPlayerBounds.left < clientPlayerBounds.left
+			&& serverPlayerBounds.left + serverPlayerBounds.width < clientPlayerBounds.left + clientPlayerBounds.width
+			&& serverPlayerBounds.top < clientPlayerBounds.top + clientPlayerBounds.height
+			&& serverPlayerBounds.top + serverPlayerBounds.height > clientPlayerBounds.top)
+		{
+			setVelocity(sf::Vector2f(0.0f, getVelocity().y));
+			//newBoxPositionAddOn.x = boxSpeed;
+			if (playerSprite.getRotation() == 180) {
+				HandleInput(dt);
+			}
+		}
+		//Left Collision
+		if (serverPlayerBounds.left > clientPlayerBounds.left
+			&& serverPlayerBounds.left + serverPlayerBounds.width > clientPlayerBounds.left + clientPlayerBounds.width
+			&& serverPlayerBounds.top < clientPlayerBounds.top + clientPlayerBounds.height
+			&& serverPlayerBounds.top + serverPlayerBounds.height > clientPlayerBounds.top)
+		{
+			setVelocity(sf::Vector2f(0.0f, getVelocity().y));
+			//newBoxPositionAddOn.x = -boxSpeed;
+			if (playerSprite.getRotation() == 0) {
+				HandleInput(dt);
+			}
+		}
+
+	}
 }
 
-void Player::UpdateCollision(sf::FloatRect playerBounds, sf::FloatRect boxBounds)
+void Player::UpdateCollision(sf::FloatRect serverPlayerBounds, sf::FloatRect clientPlayerBounds, sf::FloatRect boxBounds )
 {
 	//Collision
 	//gets players next position
-	nextPos = playerBounds;
+	nextPos = serverPlayerBounds;
 	nextPos.left += getVelocity().x;
 	nextPos.top += getVelocity().y;
 
-	this->playerBounds = playerBounds;
+	this->serverPlayerBounds = serverPlayerBounds;
+	this->clientPlayerBounds = clientPlayerBounds;
 	this->boxBounds = boxBounds;
 
 
@@ -215,7 +270,8 @@ sf::Packet Player::createPacket()
 
 	packet << static_cast<int>(getMessageType()) << getID() << getVelocity().x << getVelocity().y
 		<< getAngle() << timeSent << getPosition().x
-		<< getPosition().y << getNewBoxPositionAddOn().x << getNewBoxPositionAddOn().y;
+		<< getPosition().y << getNewBoxPositionAddOn().x << getNewBoxPositionAddOn().y 
+		<< getClientPlayerBounds().top << getClientPlayerBounds().left << getClientPlayerBounds().width << getClientPlayerBounds().height;
 
 	return packet;
 }

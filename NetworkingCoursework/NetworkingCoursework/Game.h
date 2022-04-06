@@ -26,7 +26,7 @@ public:
 	void render(float dt);
 
 	//Used to update the collision variables for the box and players
-	void playerCollisionUpdate(Player* player, BoxManager* box);
+	void playerCollisionUpdate(Player* serverPlayer, Player* clientPlayer, BoxManager* box);
 	void boxCollisionUpdate(Player* player, BoxManager* box);
 
 

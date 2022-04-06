@@ -48,7 +48,7 @@ void Game::update(float dt)
 	if (serverBool)
 	{
 		//Server player update///////////////////////////
-		playerCollisionUpdate(serverPlayer, boxTest);
+		playerCollisionUpdate(serverPlayer, clientPlayer, boxTest);
 		boxCollisionUpdate(serverPlayer, boxTest);
 		serverPlayer->Update(dt);
 		serverPlayer->Move(serverPlayer->getVelocity());
@@ -60,7 +60,9 @@ void Game::update(float dt)
 		clientPlayer->setPosition(networkObject->runPrediction(dt));
 		clientPlayer->PlayerRotate(networkMessagesContainer.getPlayerMessage().angle);
 		clientPlayer->setNewBoxPositionAddOn(networkMessagesContainer.getPlayerMessage().newBoxPositionAddOn);
-		playerCollisionUpdate(clientPlayer, boxTest);
+		serverPlayer->setClientPlayerBounds(networkMessagesContainer.getPlayerMessage().clientPlayerBounds);
+		clientPlayer->setClientPlayerBounds(networkMessagesContainer.getPlayerMessage().clientPlayerBounds);
+		//playerCollisionUpdate(serverPlayer, clientPlayer, boxTest);
 		boxCollisionUpdate(clientPlayer, boxTest);
 		/////Box update////////////////////////////////
 		boxTest->Update(dt);
@@ -96,7 +98,7 @@ void Game::update(float dt)
 		//////////////////////////////////////////////////////
 		
 		//Client player update///////////////////////////
-		playerCollisionUpdate(clientPlayer, boxTest);
+		playerCollisionUpdate(serverPlayer, clientPlayer, boxTest);
 		boxCollisionUpdate(clientPlayer, boxTest);
 		clientPlayer->Update(dt);
 		sf::Vector2f clientPlayerVelocity = clientPlayer->getVelocity();
@@ -104,7 +106,6 @@ void Game::update(float dt)
 		clientPlayer->Move(clientPlayerVelocity);
 		clientPlayer->PlayerRotate(clientPlayerAngle);
 		clientPlayer->setTimeSent(gameTime);
-		
 
 		if (latency % 4 == 0)
 		{
@@ -139,13 +140,14 @@ void Game::endDraw()
 }
 
 
-void Game::playerCollisionUpdate(Player* player, BoxManager* box)
+void Game::playerCollisionUpdate(Player* serverPlayer, Player* clientPlayer, BoxManager* box)
 {
 	//Collision
 	FloatRect nextPos;//get players next position
-	FloatRect playerBounds = player->getSprite().getGlobalBounds();
+	FloatRect serverPlayerBounds = serverPlayer->getSprite().getGlobalBounds();
+	FloatRect clientPlayerBounds = clientPlayer->getSprite().getGlobalBounds();
 	FloatRect boxBounds = box->getSprite().getGlobalBounds();
-	player->UpdateCollision(playerBounds, boxBounds);
+	serverPlayer->UpdateCollision(serverPlayerBounds, clientPlayerBounds, boxBounds);
 }
 
 void Game::boxCollisionUpdate(Player* player, BoxManager* box)
