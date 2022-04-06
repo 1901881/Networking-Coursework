@@ -143,10 +143,10 @@ void Player::CheckCollision(float dt)
 	if (boxBounds.intersects(nextPos))
 	{
 		//Bottom Collision
-		if (serverPlayerBounds.top < boxBounds.top
-			&& serverPlayerBounds.top + serverPlayerBounds.height < boxBounds.top + boxBounds.height
-			&& serverPlayerBounds.left < boxBounds.left + boxBounds.width
-			&& serverPlayerBounds.left + serverPlayerBounds.width > boxBounds.left)
+		if (currentPlayerBounds.top < boxBounds.top
+			&& currentPlayerBounds.top + currentPlayerBounds.height < boxBounds.top + boxBounds.height
+			&& currentPlayerBounds.left < boxBounds.left + boxBounds.width
+			&& currentPlayerBounds.left + currentPlayerBounds.width > boxBounds.left)
 		{
 			setVelocity(sf::Vector2f(getVelocity().y, 0.0f));
 			newBoxPositionAddOn.y = boxSpeed;
@@ -155,10 +155,10 @@ void Player::CheckCollision(float dt)
 			}
 		}
 		//Top Collision
-		if (serverPlayerBounds.top > boxBounds.top
-			&& serverPlayerBounds.top + serverPlayerBounds.height > boxBounds.top + boxBounds.height
-			&& serverPlayerBounds.left < boxBounds.left + boxBounds.width
-			&& serverPlayerBounds.left + serverPlayerBounds.width > boxBounds.left)
+		if (currentPlayerBounds.top > boxBounds.top
+			&& currentPlayerBounds.top + currentPlayerBounds.height > boxBounds.top + boxBounds.height
+			&& currentPlayerBounds.left < boxBounds.left + boxBounds.width
+			&& currentPlayerBounds.left + currentPlayerBounds.width > boxBounds.left)
 		{
 			setVelocity(sf::Vector2f(getVelocity().y, 0.0f));
 			newBoxPositionAddOn.y = -boxSpeed;
@@ -167,10 +167,10 @@ void Player::CheckCollision(float dt)
 			}
 		}
 		//Right Collision
-		if (serverPlayerBounds.left < boxBounds.left
-			&& serverPlayerBounds.left + serverPlayerBounds.width < boxBounds.left + boxBounds.width
-			&& serverPlayerBounds.top < boxBounds.top + boxBounds.height
-			&& serverPlayerBounds.top + serverPlayerBounds.height > boxBounds.top)
+		if (currentPlayerBounds.left < boxBounds.left
+			&& currentPlayerBounds.left + currentPlayerBounds.width < boxBounds.left + boxBounds.width
+			&& currentPlayerBounds.top < boxBounds.top + boxBounds.height
+			&& currentPlayerBounds.top + currentPlayerBounds.height > boxBounds.top)
 		{
 			setVelocity(sf::Vector2f(0.0f, getVelocity().y));
 			newBoxPositionAddOn.x = boxSpeed;
@@ -179,10 +179,10 @@ void Player::CheckCollision(float dt)
 			}
 		}
 		//Left Collision
-		if (serverPlayerBounds.left > boxBounds.left
-			&& serverPlayerBounds.left + serverPlayerBounds.width > boxBounds.left + boxBounds.width
-			&& serverPlayerBounds.top < boxBounds.top + boxBounds.height
-			&& serverPlayerBounds.top + serverPlayerBounds.height > boxBounds.top)
+		if (currentPlayerBounds.left > boxBounds.left
+			&& currentPlayerBounds.left + currentPlayerBounds.width > boxBounds.left + boxBounds.width
+			&& currentPlayerBounds.top < boxBounds.top + boxBounds.height
+			&& currentPlayerBounds.top + currentPlayerBounds.height > boxBounds.top)
 		{
 			setVelocity(sf::Vector2f(0.0f, getVelocity().y));
 			newBoxPositionAddOn.x = -boxSpeed;
@@ -193,14 +193,13 @@ void Player::CheckCollision(float dt)
 
 	}
 
-	//Player Player collision
-	if (clientPlayerBounds.intersects(nextPos))
+	if (externalPlayerBounds.intersects(nextPos))
 	{
 		//Bottom Collision
-		if (serverPlayerBounds.top < clientPlayerBounds.top
-			&& serverPlayerBounds.top + serverPlayerBounds.height < clientPlayerBounds.top + clientPlayerBounds.height
-			&& serverPlayerBounds.left < clientPlayerBounds.left + clientPlayerBounds.width
-			&& serverPlayerBounds.left + serverPlayerBounds.width > clientPlayerBounds.left)
+		if (currentPlayerBounds.top < externalPlayerBounds.top
+			&& currentPlayerBounds.top + currentPlayerBounds.height < externalPlayerBounds.top + externalPlayerBounds.height
+			&& currentPlayerBounds.left < externalPlayerBounds.left + externalPlayerBounds.width
+			&& currentPlayerBounds.left + currentPlayerBounds.width > externalPlayerBounds.left)
 		{
 			setVelocity(sf::Vector2f(getVelocity().y, 0.0f));
 			//newBoxPositionAddOn.y = boxSpeed;
@@ -209,10 +208,10 @@ void Player::CheckCollision(float dt)
 			}
 		}
 		//Top Collision
-		if (serverPlayerBounds.top > clientPlayerBounds.top
-			&& serverPlayerBounds.top + serverPlayerBounds.height > clientPlayerBounds.top + clientPlayerBounds.height
-			&& serverPlayerBounds.left < clientPlayerBounds.left + clientPlayerBounds.width
-			&& serverPlayerBounds.left + serverPlayerBounds.width > clientPlayerBounds.left)
+		if (currentPlayerBounds.top > externalPlayerBounds.top
+			&& currentPlayerBounds.top + currentPlayerBounds.height > externalPlayerBounds.top + externalPlayerBounds.height
+			&& currentPlayerBounds.left < externalPlayerBounds.left + externalPlayerBounds.width
+			&& currentPlayerBounds.left + currentPlayerBounds.width > externalPlayerBounds.left)
 		{
 			setVelocity(sf::Vector2f(getVelocity().y, 0.0f));
 			//newBoxPositionAddOn.y = -boxSpeed;
@@ -221,10 +220,10 @@ void Player::CheckCollision(float dt)
 			}
 		}
 		//Right Collision
-		if (serverPlayerBounds.left < clientPlayerBounds.left
-			&& serverPlayerBounds.left + serverPlayerBounds.width < clientPlayerBounds.left + clientPlayerBounds.width
-			&& serverPlayerBounds.top < clientPlayerBounds.top + clientPlayerBounds.height
-			&& serverPlayerBounds.top + serverPlayerBounds.height > clientPlayerBounds.top)
+		if (currentPlayerBounds.left < externalPlayerBounds.left
+			&& currentPlayerBounds.left + currentPlayerBounds.width < externalPlayerBounds.left + externalPlayerBounds.width
+			&& currentPlayerBounds.top < externalPlayerBounds.top + externalPlayerBounds.height
+			&& currentPlayerBounds.top + currentPlayerBounds.height > externalPlayerBounds.top)
 		{
 			setVelocity(sf::Vector2f(0.0f, getVelocity().y));
 			//newBoxPositionAddOn.x = boxSpeed;
@@ -233,10 +232,10 @@ void Player::CheckCollision(float dt)
 			}
 		}
 		//Left Collision
-		if (serverPlayerBounds.left > clientPlayerBounds.left
-			&& serverPlayerBounds.left + serverPlayerBounds.width > clientPlayerBounds.left + clientPlayerBounds.width
-			&& serverPlayerBounds.top < clientPlayerBounds.top + clientPlayerBounds.height
-			&& serverPlayerBounds.top + serverPlayerBounds.height > clientPlayerBounds.top)
+		if (currentPlayerBounds.left > externalPlayerBounds.left
+			&& currentPlayerBounds.left + currentPlayerBounds.width > externalPlayerBounds.left + externalPlayerBounds.width
+			&& currentPlayerBounds.top < externalPlayerBounds.top + externalPlayerBounds.height
+			&& currentPlayerBounds.top + currentPlayerBounds.height > externalPlayerBounds.top)
 		{
 			setVelocity(sf::Vector2f(0.0f, getVelocity().y));
 			//newBoxPositionAddOn.x = -boxSpeed;
@@ -246,18 +245,19 @@ void Player::CheckCollision(float dt)
 		}
 
 	}
+
 }
 
-void Player::UpdateCollision(sf::FloatRect serverPlayerBounds, sf::FloatRect clientPlayerBounds, sf::FloatRect boxBounds )
+void Player::UpdateCollision(sf::FloatRect currentPlayerBounds, sf::FloatRect externalPlayerBounds, sf::FloatRect boxBounds )
 {
 	//Collision
 	//gets players next position
-	nextPos = serverPlayerBounds;
+	nextPos = currentPlayerBounds;
 	nextPos.left += getVelocity().x;
 	nextPos.top += getVelocity().y;
 
-	this->serverPlayerBounds = serverPlayerBounds;
-	this->clientPlayerBounds = clientPlayerBounds;
+	this->currentPlayerBounds = currentPlayerBounds;
+	this->externalPlayerBounds = externalPlayerBounds;
 	this->boxBounds = boxBounds;
 
 

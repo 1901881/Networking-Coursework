@@ -43,8 +43,8 @@ public:
 	void setPosition(sf::Vector2f position) { playerSprite.setPosition(position); }
 	sf::Vector2f getNewBoxPositionAddOn() { return newBoxPositionAddOn; };
 	void setNewBoxPositionAddOn(sf::Vector2f newBoxPositionAddOn) { this->newBoxPositionAddOn = newBoxPositionAddOn; }
-	void setClientPlayerBounds(sf::FloatRect clientPlayerBounds) { this->clientPlayerBounds = clientPlayerBounds; }
-	sf::FloatRect getClientPlayerBounds() { return clientPlayerBounds; }
+	void setClientPlayerBounds(sf::FloatRect clientPlayerBounds) { this->externalPlayerBounds = clientPlayerBounds; }
+	sf::FloatRect getClientPlayerBounds() { return externalPlayerBounds; }
 
 	//Used for changing player controls between applications
 	void setServerBool(bool serverBool) { this->serverBool = serverBool; }
@@ -66,8 +66,8 @@ private:
 	//Box Movement//
 	sf::Vector2f newBoxPositionAddOn = sf::Vector2f(0.0f, 0.0f);
 	float boxSpeed = 1.0f;
-	sf::FloatRect serverPlayerBounds;
-	sf::FloatRect clientPlayerBounds;
+	sf::FloatRect currentPlayerBounds;
+	sf::FloatRect externalPlayerBounds;
 	sf::FloatRect boxBounds;
 	sf::FloatRect nextPos;
 
