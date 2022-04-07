@@ -1,3 +1,47 @@
-﻿  Game.cpp
+﻿  BoxManager.cpp
+  ClientPlayer.cpp
+D:\Documents\Uni Year 3\Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\ClientPlayer.cpp(121,55): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Documents\Uni Year 3\Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\ClientPlayer.cpp(121,55): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+  Game.cpp
 D:\Documents\Uni Year 3\Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Player.h(37,58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  NetworkInterface.cpp
+  NetworkMessages.cpp
+  ObjectInterface.cpp
+  Player.cpp
+D:\Documents\Uni Year 3\Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Player.h(37,58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  ScoreLine.cpp
+D:\Documents\Uni Year 3\Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\ScoreLine.cpp(9,56): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+D:\Documents\Uni Year 3\Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\ScoreLine.cpp(11,54): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+D:\Documents\Uni Year 3\Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\ScoreLine.cpp(27,52): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+D:\Documents\Uni Year 3\Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\ScoreLine.cpp(34,53): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+  ServerPlayer.cpp
+D:\Documents\Uni Year 3\Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\ServerPlayer.cpp(105,52): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Documents\Uni Year 3\Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\ServerPlayer.cpp(105,52): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+  Source.cpp
+D:\Documents\Uni Year 3\Networking\Networking-Coursework\NetworkingCoursework\NetworkingCoursework\Player.h(37,58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
   NetworkingCoursework.vcxproj -> D:\Documents\Uni Year 3\Networking\Networking-Coursework\NetworkingCoursework\x64\Debug\NetworkingCoursework.exe
